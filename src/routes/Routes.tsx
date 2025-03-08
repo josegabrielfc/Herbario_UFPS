@@ -10,7 +10,7 @@ const userRoutes = [
     name: "Home",
     layout: "/user",
     path: "/",
-    icon: <MdHome className="h-6 w-6" />,
+    icon: <MdLock className="h-6 w-6" />,
     component: <Home />,
   },
 ];
