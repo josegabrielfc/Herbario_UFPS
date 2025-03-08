@@ -1,31 +1,40 @@
-import { Link } from "react-router-dom";
-import Sidebar from "../components/sidebar/RTL";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Sidebar from "../components/sidebar/Sidebar";
+import './styles/home.css';
 
 const Home = () => {
-  const [open, setOpen] = useState(true);
+  const [isSidebarMini, setIsSidebarMini] = useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      if (mobile) {
+        setIsSidebarMini(true);
+      }
+    };
+
+    handleResize(); // Ejecutar al montar para establecer el estado inicial
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleSidebarChange = (isMini: boolean) => {
+    setIsSidebarMini(isMini);
+  };
 
   return (
-    <div className="flex">
-      <Sidebar open={open} onClose={() => setOpen(false)} />
-      <div className="flex-1 p-6">
-        <button
-          className="mb-4 px-4 py-2 bg-blue-600 text-white rounded-lg"
-          onClick={() => setOpen(true)}
-        >
-          Abrir Sidebar
-        </button>
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-          <h1 className="text-3xl font-bold text-gray-800">Bienvenido a la App</h1>
-          <p className="text-gray-600 mt-2">Explora la información disponible.</p>
-          <Link
-            to="/login"
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg"
-          >
-            Iniciar Sesión (Admin)
-          </Link>
-        </div>
-      </div>
+    <div className="layout-container">
+      <Sidebar onStateChange={handleSidebarChange} />
+      <main 
+        className={`main-content ${
+          isSidebarMini ? 'sidebar-mini' : 'sidebar-expanded'
+        } ${isMobile ? 'mobile' : ''}`}
+      >
+        <h1>Contenido Principal</h1>
+        <p>Dashboard</p>
+      </main>
     </div>
   );
 };

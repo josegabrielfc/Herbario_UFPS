@@ -3,7 +3,7 @@
 import { HiX } from "react-icons/hi";
 import Links from "./components/Links";
 
-import SidebarCard from "../sidebar/componentsrtl/SidebarCard";
+import SidebarCard from "../sidebar/components/SidebarCard";
 import { userRoutes, adminRoutes } from "../../routes/Routes";
 
 const Sidebar = (props: {
