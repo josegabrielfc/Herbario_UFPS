@@ -2,7 +2,8 @@ import Home from "../views/Home";
 import Login from "../views/Login";
 import AdminDashboard from "../views/admin/Dashboard";
 import Profile from "../views/admin/Profile";
-import { MdHome, MdPerson, MdLock } from "react-icons/md";
+import { MdHome, MdPerson, MdLock, MdOutlineShoppingCart } from "react-icons/md";
+import NFTMarketplace from "../views/admin/marketplace";
 
 // Rutas del usuario (Públicas)
 const userRoutes = [
@@ -31,6 +32,13 @@ const adminRoutes = [
     path: "profile",
     icon: <MdPerson className="h-6 w-6" />,
     component: <Profile />,
+  },
+  {
+    name: "NFT Marketplace",
+    layout: "/admin",
+    path: "marketplace",
+    icon: <MdOutlineShoppingCart className="h-6 w-6" />,
+    component: <NFTMarketplace />,
   },
 ];
 
