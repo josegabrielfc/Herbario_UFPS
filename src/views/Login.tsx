@@ -1,24 +1,71 @@
-import { useNavigate } from "react-router-dom";
+import InputField from "../components/fields/InputField";
+import { FcGoogle } from "react-icons/fc";
+import Checkbox from "../components/checkbox";
 
-const Login = () => {
-  const navigate = useNavigate();
-
-  const handleLogin = () => {
-    localStorage.setItem("adminToken", "token123");
-    navigate("/admin/dashboard"); // Redirige al panel de admin
-  };
-
+export default function Login() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h2 className="text-2xl font-bold">Iniciar Sesión</h2>
-      <button
-        className="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg"
-        onClick={handleLogin}
-      >
-        Ingresar como Admin
-      </button>
+    <div className="mt-16 mb-16 flex h-full w-full items-center justify-center px-2 md:mx-0 md:px-0 lg:mb-10 lg:items-center lg:justify-start">
+      {/* Sign in section */}
+      <div className="mt-[10vh] w-full max-w-full flex-col items-center md:pl-4 lg:pl-0 xl:max-w-[420px]">
+        <h4 className="mb-2.5 text-4xl font-bold text-navy-700 dark:text-white">
+          Iniciar Sesión
+        </h4>
+        <p className="mb-9 ml-1 text-base text-gray-600">
+          Ingresa tu correo y contraseña, para ingresar como administrador!
+        </p>
+        { /*
+        <div className="mb-6 flex h-[50px] w-full items-center justify-center gap-2 rounded-xl bg-lightPrimary hover:cursor-pointer dark:bg-navy-800">
+          <div className="rounded-full text-xl">
+            <FcGoogle />
+          </div>
+          <h5 className="text-sm font-medium text-navy-700 dark:text-white">
+            Sign In with Google
+          </h5>
+        </div> 
+        <div className="mb-6 flex items-center  gap-3">
+          <div className="h-px w-full bg-gray-200 dark:bg-navy-700" />
+          <p className="text-base text-gray-600 dark:text-white"> or </p>
+          <div className="h-px w-full bg-gray-200 dark:bg-navy-700" />
+        </div>
+        */}
+        {/* Email */}
+        <InputField
+          variant="auth"
+          extra="mb-3"
+          label="Correo*"
+          placeholder="mail@gmail.com"
+          id="email"
+          type="text"
+        />
+
+        {/* Password */}
+        <InputField
+          variant="auth"
+          extra="mb-3"
+          label="Contraseña*"
+          placeholder="Min. 8 caracteres"
+          id="password"
+          type="password"
+        />
+        {/* Checkbox */}
+        <div className="mb-4 flex items-center justify-between px-2">
+            <div className="flex items-center">
+            <Checkbox color="green" extra=""/>
+            <p className="ml-2 text-sm font-medium text-navy-700 dark:text-white">
+              Mantenerme conectado
+            </p>
+            </div>
+            <a
+            className="text-sm font-medium text-brand-500 hover:text-brand-600 dark:text-white"
+            href=" "
+            >
+            ¿Olvidaste tu contraseña?
+            </a>
+        </div>
+        <button className="linear mt-2 w-full rounded-xl bg-green-500 py-[12px] text-base font-medium text-white transition duration-200 hover:bg-green-600 active:bg-green-700 dark:bg-green-400 dark:text-white dark:hover:bg-green-300 dark:active:bg-green-200">
+          Iniciar Sesión
+        </button>
+      </div>
     </div>
   );
-};
-
-export default Login;
+}

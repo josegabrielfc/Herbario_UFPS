@@ -2,18 +2,18 @@ import Home from "../views/Home";
 import Login from "../views/Login";
 import AdminDashboard from "../views/admin/Dashboard";
 import Profile from "../views/admin/Profile";
-import { MdHome, MdPerson, MdLock, MdOutlineShoppingCart } from "react-icons/md";
-import NFTMarketplace from "../views/admin/marketplace";
+import { MdHome, MdPerson, MdLock, MdLibraryBooks } from "react-icons/md";
+import ListHerbario from "../views/admin/marketplace";
 
 // Rutas del usuario (Públicas)
 const userRoutes = [
   {
     name: "Home",
     layout: "/user",
-    path: "/",
+    path: "home",
     icon: <MdLock className="h-6 w-6" />,
     component: <Home />,
-  },
+  }
 ];
 
 // Rutas del admin (Requieren autenticación)
@@ -24,7 +24,6 @@ const adminRoutes = [
     path: "dashboard",
     icon: <MdHome className="h-6 w-6" />,
     component: <AdminDashboard />,
-    
   },
   {
     name: "Perfil",
@@ -34,11 +33,11 @@ const adminRoutes = [
     component: <Profile />,
   },
   {
-    name: "NFT Marketplace",
+    name: "Herbario",
     layout: "/admin",
-    path: "marketplace",
-    icon: <MdOutlineShoppingCart className="h-6 w-6" />,
-    component: <NFTMarketplace />,
+    path: "herbario",
+    icon: <MdLibraryBooks className="h-6 w-6" />,
+    component: <ListHerbario />,
   },
 ];
 
@@ -46,7 +45,8 @@ const adminRoutes = [
 const authRoutes = [
   {
     name: "Inicio de Sesión",
-    path: "/login",
+    layout: "/auth",
+    path: "login",
     icon: <MdLock className="h-6 w-6" />,
     component: <Login />,
   },

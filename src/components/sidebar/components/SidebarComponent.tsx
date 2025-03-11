@@ -3,7 +3,7 @@ import SidebarHeader from "./SidebarHeader";
 import MiniNavItems from "./MiniNavItems";
 import Links from "./Links";
 import SidebarCard from "./SidebarCard";
-import { userRoutes, adminRoutes } from "../../../routes/Routes";
+import { userRoutes, adminRoutes, authRoutes } from "../../../routes/Routes";
 
 interface SidebarComponentProps {
   open: boolean;
@@ -48,11 +48,16 @@ const SidebarComponent = (props: SidebarComponentProps) => {
               isAdmin
               handleRouteClick={handleRouteClick}
             />
+            <MiniNavItems
+              routes={authRoutes}
+              handleRouteClick={handleRouteClick}
+            />
           </div>
         ) : (
           <>
             <Links routes={userRoutes} />
             <Links routes={adminRoutes} />
+            <Links routes={authRoutes} />
           </>
         )}
       </ul>

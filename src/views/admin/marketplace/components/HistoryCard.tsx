@@ -1,9 +1,9 @@
-import Nft1 from "../../../../assets/nfts/Nft1.png";
-import Nft2 from "../../../../assets/nfts/Nft2.png";
-import Nft4 from "../../../../assets/nfts/Nft4.png";
-import Nft3 from "../../../../assets/nfts/Nft3.png";
-import Nft5 from "../../../../assets/nfts/Nft5.png";
-import Nft6 from "../../../../assets/nfts/Nft6.png";
+import Nft1 from "../../../../assets/plants/Nft1.png";
+import Nft2 from "../../../../assets/plants/Nft2.png";
+import Nft4 from "../../../../assets/plants/Nft4.png";
+import Nft3 from "../../../../assets/plants/Nft3.png";
+import Nft5 from "../../../../assets/plants/Nft5.png";
+import Nft6 from "../../../../assets/plants/Nft6.png";
 
 import { FaEthereum } from "react-icons/fa";
 import Card from "../../../../components/card/index";

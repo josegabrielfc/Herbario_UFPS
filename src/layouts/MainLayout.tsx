@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Navbar from '../components/navbar';
 import Sidebar from "../components/sidebar/Sidebar";
-import { userRoutes, adminRoutes } from '../routes/Routes';
+import { userRoutes, adminRoutes, authRoutes } from '../routes/Routes';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -14,7 +14,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
   // Función para obtener el título según la ruta
 const getBrandText = () => {
-    const routes = [...adminRoutes, ...userRoutes];
+    const routes = [...authRoutes,...adminRoutes, ...userRoutes ];
     const currentRoute = routes.find(route => location.pathname.includes(route.path));
     return currentRoute ? currentRoute.name : 'Dashboard';
 };

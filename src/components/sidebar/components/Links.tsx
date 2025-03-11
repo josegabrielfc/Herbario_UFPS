@@ -21,7 +21,7 @@ export const SidebarLinks = (props: { routes: RoutesType[] }): JSX.Element => {
         route.layout === "/admin" ||
         route.layout === "/auth" ||
         route.layout === "/user" ||
-        route.layout === "/rtl"
+        route.layout === "/"
       ) {
         return (
           <Link key={index} to={route.layout + "/" + route.path}>
