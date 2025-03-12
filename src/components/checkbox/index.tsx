@@ -1,4 +1,8 @@
-const Checkbox = (props: {
+/**
+ * @interface CheckboxProps
+ * @description Propiedades requeridas para el componente Checkbox
+ */
+interface CheckboxProps {
   extra?: string;
   color?:
     | "red"
@@ -16,7 +20,31 @@ const Checkbox = (props: {
     | "indigo"
     | "gray";
   [x: string]: any;
-}) => {
+}
+
+/**
+ * @component Checkbox
+ * @description Componente personalizado de checkbox con múltiples variantes de color
+ * Incluye:
+ * - Diferentes colores cuando está marcado
+ * - Soporte para modo oscuro
+ * - Animación de transición
+ * - Símbolo de check personalizado
+ * 
+ * @param {CheckboxProps} props - Propiedades del componente
+ * @returns {JSX.Element} Componente Checkbox
+ * 
+ * @example
+ * // Checkbox básico
+ * <Checkbox />
+ * 
+ * // Checkbox con color personalizado
+ * <Checkbox color="green" />
+ * 
+ * // Checkbox con clases adicionales
+ * <Checkbox extra="my-4" color="blue" />
+ */
+const Checkbox = (props: CheckboxProps) => {
   const { extra, color, ...rest } = props;
   return (
     <input

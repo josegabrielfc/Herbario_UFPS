@@ -1,11 +1,25 @@
 import { JSX } from "react";
 
-function Card(props: {
+/**
+ * @interface CardProps
+ * @description Propiedades requeridas para el componente Card
+ */
+interface CardProps {
   variant?: string;
   extra?: string;
   children?: JSX.Element | any[];
   [x: string]: any;
-}) {
+}
+
+/**
+ * @component Card
+ * @description Componente base para crear tarjetas con estilos predefinidos
+ * Incluye bordes redondeados, sombras y soporte para modo oscuro
+ * 
+ * @param {CardProps} props - Propiedades del componente
+ * @returns {JSX.Element} Componente Card
+ */
+function Card(props: CardProps) {
   const { variant, extra, children, ...rest } = props;
   return (
     <div

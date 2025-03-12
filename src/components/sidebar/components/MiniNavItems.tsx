@@ -4,6 +4,37 @@ interface MiniNavItemsProps {
   handleRouteClick: (path: string) => void;
 }
 
+/**
+ * @component MiniNavItems
+ * @description Componente que genera elementos de navegación minimizados para la barra lateral
+ * Características:
+ * - Renderiza iconos para cada ruta
+ * - Manejo diferenciado para rutas de administrador
+ * - Soporte para tooltips con nombres de rutas
+ * - Efectos hover personalizados
+ * - Soporte para modo oscuro
+ * - Acepta tanto iconos como cadenas de texto
+ * 
+ * @param {MiniNavItemsProps} props - Propiedades del componente
+ * @param {any[]} props.routes - Array de rutas a mostrar
+ * @param {boolean} props.isAdmin - Indica si son rutas de administrador
+ * @param {Function} props.handleRouteClick - Manejador de click para navegación
+ * @returns {JSX.Element} Lista de elementos de navegación minimizados
+ * 
+ * @example
+ * // Uso básico
+ * <MiniNavItems 
+ *   routes={routes}
+ *   handleRouteClick={(path) => navigate(path)}
+ * />
+ * 
+ * // Uso como menú de administrador
+ * <MiniNavItems 
+ *   routes={adminRoutes}
+ *   isAdmin={true}
+ *   handleRouteClick={(path) => navigate(path)}
+ * />
+ */
 const MiniNavItems = ({ routes, isAdmin, handleRouteClick }: MiniNavItemsProps) => (
   <>
     {routes.map((route, index) => (

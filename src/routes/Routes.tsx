@@ -3,20 +3,32 @@ import Login from "../views/Login";
 import AdminDashboard from "../views/admin/Dashboard";
 import Profile from "../views/admin/Profile";
 import { MdHome, MdPerson, MdLock, MdLibraryBooks } from "react-icons/md";
-import ListHerbario from "../views/admin/marketplace";
+import ListHerbario from "../views/admin/herbario";
+import ForgotPassword from "../views/ForgotPassword";
 
-// Rutas del usuario (Públicas)
+/**
+ * @constant userRoutes
+ * @description Rutas públicas accesibles para usuarios no autenticados
+ * - No requieren autenticación
+ * - Visible en la navegación principal
+ */
 const userRoutes = [
   {
-    name: "Home",
+    name: "Inicio",
     layout: "/user",
     path: "home",
     icon: <MdLock className="h-6 w-6" />,
     component: <Home />,
-  }
+  },
 ];
 
-// Rutas del admin (Requieren autenticación)
+/**
+ * @constant adminRoutes
+ * @description Rutas protegidas para administradores
+ * - Requieren autenticación
+ * - Solo accesibles para usuarios con rol de administrador
+ * - Visible en el panel de administración
+ */
 const adminRoutes = [
   {
     name: "Dashboard",
@@ -41,7 +53,13 @@ const adminRoutes = [
   },
 ];
 
-// Rutas de autenticación
+/**
+ * @constant authRoutes
+ * @description Rutas relacionadas con la autenticación
+ * - Incluye login y recuperación de contraseña
+ * - Algunas rutas pueden estar ocultas en la navegación
+ * - No requieren autenticación previa
+ */
 const authRoutes = [
   {
     name: "Inicio de Sesión",
@@ -49,6 +67,14 @@ const authRoutes = [
     path: "login",
     icon: <MdLock className="h-6 w-6" />,
     component: <Login />,
+  },
+  {
+    name: "Inicio de Sesión",
+    layout: "/auth",
+    path: "forgot-password",
+    icon: <MdLock className="h-6 w-6" />,
+    component: <ForgotPassword />,
+    hide: true,
   },
 ];
 

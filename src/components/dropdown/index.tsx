@@ -1,33 +1,73 @@
 import React, { JSX } from "react";
 
-function useOutsideAlerter(ref: any, setX: any): void {
+/**
+ * @interface DropdownProps
+ * @description Propiedades requeridas para el componente Dropdown
+ */
+interface DropdownProps {
+  button: JSX.Element;
+  children: JSX.Element;
+  classNames: string;
+  animation?: string;
+}
+
+/**
+ * @function useOutsideAlerter
+ * @description Hook personalizado para detectar clics fuera del elemento dropdown
+ * @param {React.RefObject<any>} ref - Referencia al elemento dropdown
+ * @param {Function} setX - Función para actualizar el estado de visibilidad
+ */
+function useOutsideAlerter(ref: React.RefObject<any>, setX: (value: boolean) => void): void {
   React.useEffect(() => {
     /**
-     * Alert if clicked on outside of element
+     * Maneja el clic fuera del elemento dropdown
+     * @param {MouseEvent} event - Evento del clic
      */
-    // function handleClickOutside(event: React.MouseEvent<HTMLElement>) {
-    function handleClickOutside(event: any) {
+    function handleClickOutside(event: MouseEvent) {
       if (ref.current && !ref.current.contains(event.target)) {
         setX(false);
       }
     }
-    // Bind the event listener
+    // Agregar el event listener
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      // Unbind the event listener on clean up
+      // Limpiar el event listener
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [ref, setX]);
 }
 
-const Dropdown = (props: {
-  button: JSX.Element;
-  children: JSX.Element;
-  classNames: string;
-  animation?: string;
-}) => {
+/**
+ * @component Dropdown
+ * @description Componente que implementa un menú desplegable personalizable
+ * Incluye:
+ * - Detección de clics fuera del dropdown para cerrarlo
+ * - Animaciones personalizables
+ * - Soporte para cualquier contenido como botón o contenido
+ * - Control de estado para abrir/cerrar
+ * 
+ * @param {DropdownProps} props - Propiedades del componente
+ * @returns {JSX.Element} Componente Dropdown
+ * 
+ * @example
+ * // Dropdown básico
+ * <Dropdown
+ *   button={<Button>Abrir</Button>}
+ *   children={<MenuItems />}
+ *   classNames="bg-white shadow-lg rounded-md"
+ * />
+ * 
+ * // Dropdown con animación personalizada
+ * <Dropdown
+ *   button={<Button>Abrir</Button>}
+ *   children={<MenuItems />}
+ *   classNames="bg-white"
+ *   animation="slide-down"
+ * />
+ */
+const Dropdown = (props: DropdownProps) => {
   const { button, children, classNames, animation } = props;
-  const wrapperRef = React.useRef(null);
+  const wrapperRef = React.useRef<HTMLDivElement>(null);
   const [openWrapper, setOpenWrapper] = React.useState(false);
   useOutsideAlerter(wrapperRef, setOpenWrapper);
 
