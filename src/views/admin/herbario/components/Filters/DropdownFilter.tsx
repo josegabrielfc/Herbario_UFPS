@@ -52,7 +52,7 @@ const DropdownFilter = ({ dropdownFamilies, selectedSection, setSelectedSection 
         leaveTo="transform opacity-0 scale-95"
       >
         {/* Contenedor del menú desplegable */}
-        <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right rounded-xl bg-white/10 backdrop-blur-xl shadow-xl focus:outline-none dark:bg-navy-800/90 z-[9999] overflow-hidden">
+        <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right rounded-[8px] bg-white shadow-xl focus:outline-none dark:bg-navy-800/90 z-[9999] overflow-hidden">
           <div className="py-1">
             {/* Lista de opciones del menú */}
             {dropdownFamilies.map((section) => (

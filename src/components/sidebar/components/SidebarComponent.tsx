@@ -81,16 +81,18 @@ const SidebarComponent = (props: SidebarComponentProps) => {
           <div className="flex flex-col items-center space-y-4 pt-4">
             <MiniNavItems
               routes={userRoutes}
+              pathOrigin="user"
               handleRouteClick={handleRouteClick}
             />
             <MiniNavItems
               routes={adminRoutes}
-              isAdmin
+              pathOrigin="admin"
               handleRouteClick={handleRouteClick}
             />
             <MiniNavItems
               routes={authRoutes}
               handleRouteClick={handleRouteClick}
+              pathOrigin="auth"
             />
           </div>
         ) : (

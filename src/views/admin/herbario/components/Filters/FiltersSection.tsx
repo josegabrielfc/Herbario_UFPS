@@ -1,3 +1,5 @@
+import { Menu } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import DropdownFilter from "./DropdownFilter";
 
 interface FiltersSectionProps {
@@ -32,19 +34,41 @@ const FiltersSection = ({
   return (
     <div className="mb-4 mt-5 flex flex-col justify-between px-4 md:flex-row md:items-center">
       {/* Selector de tipo de herbario */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center">
+      <div className="flex flex-col gap-4 md:flex-row md:items-end">
         <h4 className="ml-1 text-2xl font-bold text-navy-700 dark:text-white">
           Tipo de Herbario
         </h4>
-        <select 
-          className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-navy-800 text-gray-700 dark:text-white"
-          value={selectedHerbariumType}
-          onChange={(e) => onHerbariumTypeChange(e.target.value)}
-        >
-          {herbariumTypes.map(type => (
-            <option key={type} value={type}>{type}</option>
+        
+        {/* Menú desplegable de tipos de herbario */}
+        <Menu as="div" className="relative">
+          <Menu.Button className="flex items-center text-base font-medium text-gray-700 hover:text-green-500 dark:text-white cursor-pointer transition-colors duration-200">
+        {selectedHerbariumType}
+        <ChevronDownIcon className="ml-2 h-5 w-5" />
+          </Menu.Button>
+
+        <Menu.Items className="absolute left-0 mt-2 w-54 origin-top-right rounded-[8px] bg-white shadow-xl focus:outline-none dark:bg-navy-800 z-[9999] overflow-hidden">
+        <div className="py-1">
+          {herbariumTypes.map((type) => (
+            <Menu.Item key={type}>
+          {({ active }) => (
+            <button
+              className={`${
+            active ? 'bg-green-500/10 text-green-500' : ''
+              } ${
+            selectedHerbariumType === type
+              ? "text-green-500 bg-green-500/5"
+              : "text-gray-700 dark:text-white"
+              } block w-full px-4 py-3 text-left text-sm transition-colors duration-200 hover:text-green-500`}
+              onClick={() => onHerbariumTypeChange(type)}
+            >
+              {type}
+            </button>
+          )}
+            </Menu.Item>
           ))}
-        </select>
+        </div>
+          </Menu.Items>
+        </Menu>
       </div>
 
       {/* Lista de filtros */}
