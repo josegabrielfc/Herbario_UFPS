@@ -22,7 +22,7 @@ const MiniNavItems = ({ routes, pathOrigin, handleRouteClick }: MiniNavItemsProp
         return (
           <li
             key={pathOrigin ? `${pathOrigin}-${index}` : index}
-            className="cursor-pointer rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-white/10"
+            className="cursor-pointer rounded-lg p-2 hover:bg-gray-100"
             title={route.name}
             onClick={() =>
               handleRouteClick(pathOrigin ? `${pathOrigin}/${route.path}` : route.path)

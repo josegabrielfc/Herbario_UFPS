@@ -23,7 +23,7 @@ export default function ForgotPassword() {
       {/* Sección de recuperación de contraseña */}
       <div className="mt-[10vh] w-full max-w-full flex-col items-center md:pl-4 lg:pl-0 xl:max-w-[420px]">
         {/* Título principal */}
-        <h4 className="mb-2.5 text-4xl font-bold text-navy-700 dark:text-white">
+        <h4 className="mb-2.5 text-4xl font-bold text-navy-700">
           Olvidaste tu contraseña?
         </h4>
 
@@ -44,7 +44,7 @@ export default function ForgotPassword() {
         />
 
         {/* Botón de envío */}
-        <button className="linear mt-2 w-full rounded-xl bg-green-500 py-[12px] text-base font-medium text-white transition duration-200 hover:bg-green-600 active:bg-green-700 dark:bg-green-400 dark:text-white dark:hover:bg-green-300 dark:active:bg-green-200 cursor-pointer">
+        <button className="linear mt-2 w-full rounded-xl bg-green-500 py-[12px] text-base font-medium text-white transition duration-200 hover:bg-green-600 active:bg-green-700 cursor-pointer">
           Enviar correo
         </button>
       </div>

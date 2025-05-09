@@ -41,31 +41,37 @@ const Navbar = (props: NavbarProps) => {
   const { brandText } = props;
 
   return (
-    <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d]">
+    <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl">
       {/* Sección de navegación */}
       <div className="ml-[6px]">
         {/* Breadcrumb */}
         <div className="h-6 w-[224px] pt-1">
-          <span className="text-sm font-normal text-navy-700 dark:text-white">
+          <span className="text-sm font-normal text-navy-700 ">
             Pagina
-            <span className="mx-1 text-sm text-navy-700 dark:text-white">
+            <span className="mx-1 text-sm text-navy-700 ">
               {" "}
               /{" "}
             </span>
           </span>
-          <span className="text-sm font-normal capitalize text-navy-700 dark:text-white">
+          <span className="text-sm font-normal capitalize text-navy-700 ">
             {brandText}
           </span>
         </div>
         {/* Título de la página actual */}
-        <p className="shrink text-[33px] capitalize text-navy-700 dark:text-white">
+        <p className="shrink text-[33px] capitalize text-navy-700 ">
           <Link
             to="#"
-            className="font-bold capitalize hover:text-navy-700 dark:hover:text-white"
+            className="font-bold capitalize hover:text-navy-700"
           >
             {brandText}
           </Link>
         </p>
+      </div>
+       {/* Título estático "Inventario" */}
+       <div className="mr-[20px]">
+        <h1 className="text-2xl font-bold text-navy-700 ">
+          Reserva de documentos taxonomicos de la UFPS
+        </h1>
       </div>
     </nav>
   );

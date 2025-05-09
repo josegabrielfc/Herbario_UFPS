@@ -43,8 +43,8 @@ export default function Auth() {
 
   return (
     <div>
-      {/* Contenedor principal con soporte para modo oscuro */}
-      <div className="relative float-right h-full min-h-screen w-full !bg-white dark:!bg-navy-900">
+      {/* Contenedor principal */}
+      <div className="relative float-right h-full min-h-screen w-full !bg-white">
         <main className={`mx-auto min-h-screen`}>
           <div className="relative flex">
             {/* Layout responsivo con diferentes breakpoints */}

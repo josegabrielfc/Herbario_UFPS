@@ -19,7 +19,7 @@ const SideCard = () => {
   return (
     <div className="relative mt-14 flex w-[256px] justify-center rounded-[20px] bg-gradient-to-tl from-[#FF8686] via-[#F34343] to-brand-500 pb-4">
       {/* Contenedor del logo */}
-      <div className="absolute -top-10 flex h-20 w-20 items-center justify-center border-[4px] border-white bg-gradient-to-b from-[#FF8686] to-brand-500 dark:!border-navy-800">
+      <div className="absolute -top-10 flex h-20 w-20 items-center justify-center border-[4px] border-white bg-gradient-to-b from-[#FF8686] to-brand-500">
         <img src="/ufps_logo.svg" alt="UFPS Logo" className="h-16 w-16" />
       </div>
 

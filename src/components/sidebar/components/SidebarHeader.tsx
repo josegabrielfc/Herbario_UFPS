@@ -44,7 +44,7 @@ const SidebarHeader = ({ mini, onClose, onToggleMini }: SidebarHeaderProps) => {
     return (
       <div className="mt-[50px] flex justify-center">
         <HiMenu
-          className="h-8 w-8 cursor-pointer text-navy-700 dark:text-white"
+          className="h-8 w-8 cursor-pointer text-navy-700 "
           onClick={onToggleMini}
         />
       </div>
@@ -64,13 +64,13 @@ const SidebarHeader = ({ mini, onClose, onToggleMini }: SidebarHeaderProps) => {
 
       {/* Título del Herbario */}
       <div className="mt-[50px] flex items-center justify-center w-full">
-        <div className="mt-1 text-[26px] font-bold uppercase text-navy-700 dark:text-white text-center">
+        <div className="mt-1 text-[26px] font-bold uppercase text-navy-700  text-center">
           HERBARIO <span className="font-medium">UFPS</span>
         </div>
       </div>
 
       {/* Línea divisoria */}
-      <div className="mt-[58px] mb-7 h-px bg-gray-300 dark:bg-white/30" />
+      <div className="mt-[58px] mb-7 h-px bg-gray-300" />
     </>
   );
 };
