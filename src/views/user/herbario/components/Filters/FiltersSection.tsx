@@ -8,10 +8,10 @@ import { getHerbariumTypes, getFamiliesByHerbariumId } from "../../../../../serv
 interface FiltersSectionProps {
   selectedHerbariumType: string;
   onHerbariumTypeChange: (id: number, name: string) => void;
-  mainFamilies: Array<{ id: number; name: string }>;  // Updated type
-  dropdownFamilies: Array<{ id: number; name: string }>; // Updated type
+  mainFamilies: string[];
+  dropdownFamilies: string[];
   selectedSection: string;
-  setSelectedSection: (familyId: number, familyName: string) => void; // Updated type
+  setSelectedSection: (section: string) => void;
 }
 
 const FiltersSection = ({
@@ -34,14 +34,8 @@ const FiltersSection = ({
     loadHerbariumTypes();
   }, []);
 
-  // Add "All herbaria" option to the list
-  const allHerbariumTypes = [
-    { id: 0, name: "Todos los herbarios" },
-    ...herbariumTypes
-  ];
-
   // Filtrar tipos de herbario según la búsqueda
-  const filteredHerbariumTypes = allHerbariumTypes.filter(type =>
+  const filteredHerbariumTypes = herbariumTypes.filter(type =>
     type.name.toLowerCase().includes(herbariumSearch.toLowerCase())
   );
 
@@ -59,8 +53,8 @@ const FiltersSection = ({
             <ChevronDownIcon className="ml-2 h-5 w-5" />
           </Menu.Button>
 
-          <Menu.Items className="absolute left-0 mt-2 w-54 origin-top-right rounded-[8px] bg-white shadow-xl focus:outline-none z-[9999] overflow-hidden max-h-[420px] flex flex-col">
-            <div className="p-2 flex-shrink-0">
+          <Menu.Items className="absolute left-0 mt-2 w-54 origin-top-right rounded-[8px] bg-white shadow-xl focus:outline-none z-[9999] overflow-hidden">
+            <div className="p-2">
               {/* Buscador */}
               <div className="relative mb-2">
                 <input
@@ -72,10 +66,8 @@ const FiltersSection = ({
                 />
                 <MagnifyingGlassIcon className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
               </div>
-            </div>
 
-            <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent hover:scrollbar-thumb-gray-300">
-              <div className="p-2">
+              <div className="py-1">
                 {filteredHerbariumTypes.map((type) => (
                   <Menu.Item key={type.id}>
                     {({ active }) => (
@@ -87,13 +79,7 @@ const FiltersSection = ({
                             ? "text-green-500 bg-green-500/5"
                             : "text-gray-700"
                         } block w-full px-4 py-3 text-left text-sm transition-colors duration-200 hover:text-green-500`}
-                        onClick={() => {
-                          if (type.id === 0) {
-                            onHerbariumTypeChange(0, "Todos los herbarios");
-                          } else {
-                            onHerbariumTypeChange(type.id, type.name);
-                          }
-                        }}
+                        onClick={() => onHerbariumTypeChange(type.id, type.name)}
                       >
                         {type.name}
                       </button>
@@ -109,29 +95,28 @@ const FiltersSection = ({
       {/* Lista de filtros */}
       <ul className="mt-4 flex items-center justify-between md:mt-0 md:justify-center md:!gap-5 2xl:!gap-12">
         {/* Botones de familias principales */}
-        {mainFamilies.map((family) => (
-          <li key={family.id}>
+        {mainFamilies.map((section) => (
+          <li key={section}>
             <button
               className={`text-base font-medium cursor-pointer ${
-                selectedSection === family.name
+                selectedSection === section
                   ? "text-brand-500"
                   : "text-gray-600"
               } hover:text-brand-500`}
-              onClick={() => setSelectedSection(family.id, family.name)}
+              onClick={() => setSelectedSection(section)}
             >
-              {family.name}
+              {section}
             </button>
           </li>
         ))}
 
         {/* Menú desplegable para familias adicionales */}
         {dropdownFamilies.length > 0 && (
-          <DropdownFilter
-            dropdownFamilies={dropdownFamilies}
-            selectedSection={selectedSection}
-            setSelectedSection={setSelectedSection}
-          />
-        )}
+        <DropdownFilter
+          dropdownFamilies={dropdownFamilies}
+          selectedSection={selectedSection}
+          setSelectedSection={setSelectedSection}
+        />)}
       </ul>
     </div>
   );

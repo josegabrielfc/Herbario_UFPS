@@ -48,6 +48,15 @@ interface SidebarComponentProps {
 const SidebarComponent = (props: SidebarComponentProps) => {
   const { open, onClose, mini, onToggleMini, isMobile } = props;
   const navigate = useNavigate();
+  const isAuthenticated = !!localStorage.getItem('token');
+
+  // Filter userRoutes based on authentication status
+  const filteredUserRoutes = userRoutes.filter(route => {
+    if (route.path === 'herbario' && route.layout === '/user') {
+      return !isAuthenticated; // Show herbario only when NOT authenticated
+    }
+    return true; // Always show other routes
+  });
 
   /**
    * Maneja la navegación a la ruta especificada
@@ -80,15 +89,17 @@ const SidebarComponent = (props: SidebarComponentProps) => {
           // Modo minimizado: muestra solo iconos
           <div className="flex flex-col items-center space-y-4 pt-4">
             <MiniNavItems
-              routes={userRoutes}
+              routes={filteredUserRoutes}
               pathOrigin="user"
               handleRouteClick={handleRouteClick}
             />
-            <MiniNavItems
-              routes={adminRoutes}
-              pathOrigin="admin"
-              handleRouteClick={handleRouteClick}
-            />
+            {isAuthenticated && (
+              <MiniNavItems
+                routes={adminRoutes}
+                pathOrigin="admin"
+                handleRouteClick={handleRouteClick}
+              />
+            )}
             <MiniNavItems
               routes={authRoutes}
               handleRouteClick={handleRouteClick}
@@ -98,8 +109,8 @@ const SidebarComponent = (props: SidebarComponentProps) => {
         ) : (
           // Modo expandido: muestra enlaces completos
           <>
-            <Links routes={userRoutes} />
-            <Links routes={adminRoutes} />
+            <Links routes={filteredUserRoutes} />
+            {isAuthenticated && <Links routes={adminRoutes} /> }
             <Links routes={authRoutes} />
           </>
         )}

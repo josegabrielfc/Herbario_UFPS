@@ -1,10 +1,8 @@
 export interface Plant {
-  id: number,
   section: string;
   commonName: string;
   scientificName: string;
   quantity: string;
-  description?: string;
   image: string;
-  images: string[];
+  description?: string;
 }

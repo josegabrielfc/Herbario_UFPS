@@ -1,10 +1,13 @@
 import Home from "../views/Home";
-import Login from "../views/Login";
+import Login from "../views/admin/SignUp/Login";
 import AdminDashboard from "../views/admin/Dashboard";
-import Profile from "../views/admin/Profile";
+import Profile from "../views/admin/services/Management";
 import { MdHome, MdPerson, MdLock, MdLibraryBooks } from "react-icons/md";
 import ListHerbario from "../views/admin/herbario";
-import ForgotPassword from "../views/ForgotPassword";
+import ListHerbarioView from "../views/user/herbario";
+import ForgotPassword from "../views/admin/SignUp/ForgotPassword";
+import ProtectedRoute from "./ProtectedRoute";
+
 
 /**
  * @constant userRoutes
@@ -20,14 +23,18 @@ const userRoutes = [
     icon: <MdLock className="h-6 w-6" />,
     component: <Home />,
   },
+  {
+    name: "Herbario",
+    layout: "/user",
+    path: "herbario",
+    icon: <MdLibraryBooks className="h-6 w-6" />,
+    component: <ListHerbarioView />,
+  },
 ];
 
 /**
  * @constant adminRoutes
  * @description Rutas protegidas para administradores
- * - Requieren autenticación
- * - Solo accesibles para usuarios con rol de administrador
- * - Visible en el panel de administración
  */
 const adminRoutes = [
   {
@@ -35,21 +42,21 @@ const adminRoutes = [
     layout: "/admin",
     path: "dashboard",
     icon: <MdHome className="h-6 w-6" />,
-    component: <AdminDashboard />,
+    component: <ProtectedRoute><AdminDashboard /></ProtectedRoute>,
   },
   {
-    name: "Perfil",
+    name: "Administracion",
     layout: "/admin",
     path: "profile",
     icon: <MdPerson className="h-6 w-6" />,
-    component: <Profile />,
+    component: <ProtectedRoute><Profile /></ProtectedRoute>,
   },
   {
     name: "Herbario",
     layout: "/admin",
     path: "herbario",
     icon: <MdLibraryBooks className="h-6 w-6" />,
-    component: <ListHerbario />,
+    component: <ProtectedRoute><ListHerbario /></ProtectedRoute>,
   },
 ];
 

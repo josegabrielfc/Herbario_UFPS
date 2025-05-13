@@ -1,6 +1,9 @@
-import InputField from "../components/fields/InputField";
-import Checkbox from "../components/checkbox";
+import { useState } from "react";
+import InputField from "../../../components/fields/InputField";
+import Checkbox from "../../../components/checkbox";
 import { useNavigate } from "react-router-dom";
+import { login } from '../../../services/auth.service';
+
 
 /**
  * @component Login
@@ -22,6 +25,29 @@ import { useNavigate } from "react-router-dom";
  */
 export default function Login() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    // Get form data using FormData API
+    const form = e.currentTarget;
+    const email = (form.elements.namedItem('email') as HTMLInputElement).value;
+    const password = (form.elements.namedItem('password') as HTMLInputElement).value;
+
+    try {
+      //const token =
+      await login({ email, password });
+      navigate("/admin/herbario");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error al iniciar sesión');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="mt-16 mb-16 flex h-full w-full items-center justify-center px-2 md:mx-0 md:px-0 lg:mb-10 lg:items-center lg:justify-start">
@@ -51,24 +77,31 @@ export default function Login() {
         */}
         {/* Formulario de inicio de sesión */}
         {/* Campo de correo electrónico */}
-        <InputField
-          variant="auth"
-          extra="mb-3"
-          label="Correo*"
-          placeholder="mail@gmail.com"
-          id="email"
-          type="text"
-        />
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg">
+            {error}
+          </div>
+        )}
 
-        {/* Campo de contraseña */}
-        <InputField
-          variant="auth"
-          extra="mb-3"
-          label="Contraseña*"
-          placeholder="Min. 8 caracteres"
-          id="password"
-          type="password"
-        />
+        <form onSubmit={handleSubmit}>
+          <InputField
+            variant="auth"
+            extra="mb-3"
+            label="Correo*"
+            placeholder="mail@gmail.com"
+            id="email"
+            type="email"
+
+          />
+
+          <InputField
+            variant="auth"
+            extra="mb-3"
+            label="Contraseña*"
+            placeholder="Min. 8 caracteres"
+            id="password"
+            type="password"
+          />
 
         {/* Opciones adicionales */}
         <div className="mb-4 flex items-center justify-between px-2">
@@ -90,9 +123,16 @@ export default function Login() {
         </div>
 
         {/* Botón de envío */}
-        <button className="linear mt-2 w-full rounded-xl bg-green-500 py-[12px] text-base font-medium text-white transition duration-200 hover:bg-green-600 active:bg-green-700 cursor-pointer">
-          Iniciar Sesión
-        </button>
+        <button
+            type="submit"
+            disabled={loading}
+            className={`linear mt-2 w-full rounded-xl bg-green-500 py-[12px] text-base font-medium text-white transition duration-200 hover:bg-green-600 active:bg-green-700 ${
+              loading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+            }`}
+          >
+            {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+          </button>
+        </form>
       </div>
     </div>
   );

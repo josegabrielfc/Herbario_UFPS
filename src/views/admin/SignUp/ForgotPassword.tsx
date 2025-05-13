@@ -1,4 +1,4 @@
-import InputField from "../components/fields/InputField";
+import InputField from "../../../components/fields/InputField";
 
 /**
  * @component ForgotPassword
@@ -45,7 +45,7 @@ export default function ForgotPassword() {
 
         {/* Botón de envío */}
         <button className="linear mt-2 w-full rounded-xl bg-green-500 py-[12px] text-base font-medium text-white transition duration-200 hover:bg-green-600 active:bg-green-700 cursor-pointer">
-          Enviar correo
+          Validar correo
         </button>
       </div>
     </div>

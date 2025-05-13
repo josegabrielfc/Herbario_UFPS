@@ -25,7 +25,6 @@ const Error = () => {
    * - Redirige al usuario a la página principal
    */
   const handleError = () => {
-    localStorage.setItem("adminToken", "token123");
     navigate("/user/home"); // Redirige al panel de admin
   };
 

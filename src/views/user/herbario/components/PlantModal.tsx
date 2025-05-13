@@ -9,8 +9,7 @@ interface PlantModalProps {
 const PlantModal = ({ isOpen, onClose, plant }: PlantModalProps) => {
   if (!isOpen || !plant) return null;
 
-  // Use actual images array instead of duplicating the same image
-  const images = plant.images || [plant.image];
+  const images = [plant.image, plant.image, plant.image];
 
   return (
     <div
@@ -47,22 +46,22 @@ const PlantModal = ({ isOpen, onClose, plant }: PlantModalProps) => {
               {plant.commonName}
             </h3>
 
-            {/* Updated dynamic image grid */}
+            {/* Updated dynamic image grid with more height */}
             <div className={`mt-6 grid gap-4 ${
               images.length === 1 ? 'grid-cols-1' : 
               images.length === 2 ? 'grid-cols-2' :
               'grid-cols-3'
             } place-items-center`}> {/* Increased gap and margin */}
-              {images.map((imageUrl, index) => (
+              {images.map((image, index) => (
                 <div key={index} className={`relative ${
                   images.length === 1 ? 'col-span-1 w-1/2 mx-auto' :
                   images.length === 2 ? 'col-span-1' :
                   'col-span-1'
                 }`}>
                   <img
-                    src={imageUrl}
-                    alt={`${plant.commonName} - Vista ${index + 1}`}
-                    className="w-full h-80 object-cover rounded-2xl" //hover:scale-105 transition-transform duration-300
+                  src={image}
+                  alt={`${plant.commonName} - Vista ${index + 1}`}
+                  className="w-full h-80 object-cover rounded-2xl" //hover:scale-105 transition-transform duration-300
                   />
                 </div>
               ))}

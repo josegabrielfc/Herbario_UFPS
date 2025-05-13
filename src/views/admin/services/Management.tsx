@@ -1,4 +1,4 @@
-const Profile = () => {
+const Management = () => {
     return (
       <div className="p-6">
         <h1 className="text-2xl font-bold">Perfil del Administrador</h1>
@@ -7,5 +7,4 @@ const Profile = () => {
     );
   };
   
-  export default Profile;
-  
+export default Management;

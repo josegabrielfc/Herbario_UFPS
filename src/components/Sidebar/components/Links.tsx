@@ -57,7 +57,7 @@ export const SidebarLinks = (props: { routes: RoutesType[] }):JSX.Element => {
                 <span
                   className={`${
                     activeRoute(route.path)
-                      ? "font-bold text-brand-500 dark:text-white"
+                      ? "font-bold text-brand-500 "
                       : "font-medium text-gray-600"
                   }`}
                 >
@@ -67,7 +67,7 @@ export const SidebarLinks = (props: { routes: RoutesType[] }):JSX.Element => {
                 <p
                   className={`leading-1 ml-4 flex ${
                     activeRoute(route.path)
-                      ? "font-bold text-navy-700 dark:text-white"
+                      ? "font-bold text-navy-700 "
                       : "font-medium text-gray-600"
                   }`}
                 >
@@ -76,7 +76,7 @@ export const SidebarLinks = (props: { routes: RoutesType[] }):JSX.Element => {
               </li>
               {/* Indicador visual de ruta activa */}
               {activeRoute(route.path) ? (
-                <div className="absolute right-0 top-px h-9 w-1 rounded-lg bg-brand-500 dark:bg-brand-400" />
+                <div className="absolute right-0 top-px h-9 w-1 rounded-lg bg-brand-500" />
               ) : null}
             </div>
           </Link>
