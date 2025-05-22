@@ -4,7 +4,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
 import DropdownFilter from "./DropdownFilter";
 import { getHerbariumTypes, getFamiliesByHerbariumId } from "../../../../../services/herbarium.service";
-import CreateHerbariumModal from "../Herbarium/CreateHerbariumModal";
+import CreateHerbariumModal from "../Herbarium/Modals/CreateHerbariumModal";
 
 interface FiltersSectionProps {
   selectedHerbariumType: string;
@@ -133,12 +133,7 @@ const FiltersSection = ({
         ))}
 
         {/* Menú desplegable para familias adicionales */}
-        {dropdownFamilies.length > 0 && (
-        <DropdownFilter
-          dropdownFamilies={dropdownFamilies}
-          selectedSection={selectedSection}
-          setSelectedSection={setSelectedSection}
-        />)}
+        
       </ul>
       <CreateHerbariumModal
         isOpen={isCreateModalOpen}

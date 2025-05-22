@@ -9,7 +9,6 @@ interface PlantModalProps {
 const PlantModal = ({ isOpen, onClose, plant }: PlantModalProps) => {
   if (!isOpen || !plant) return null;
 
-  // Use actual images array instead of duplicating the same image
   const images = plant.images || [plant.image];
 
   return (
@@ -19,12 +18,13 @@ const PlantModal = ({ isOpen, onClose, plant }: PlantModalProps) => {
       role="dialog"
       aria-modal="true"
     >
-      <div className="flex min-h-full items-center justify-center p-8 text-center"> {/* Increased padding */}
-        <div className="relative transform overflow-hidden rounded-xl bg-white/80 backdrop-blur-md px-8 pb-8 pt-6 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-4xl sm:p-8 min-h-[80vh]"> 
-          {/* Close button */}
+      <div className="flex min-h-full items-center justify-center p-8 text-center">
+        {/* Container Principal */}
+        <div className="relative transform overflow-hidden rounded-xl bg-white/80 backdrop-blur-md px-8 pb-8 pt-6 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-4xl sm:p-8 min-h-[80vh] flex flex-col"> 
+          {/* Botón de cerrar */}
           <button
             onClick={onClose}
-            className="absolute right-4 top-4 rounded-lg p-1 hover:bg-gray-100 cursor-pointer"
+            className="absolute right-4 top-4 rounded-lg p-1 hover:bg-gray-100 cursor-pointer z-10"
           >
             <svg
               className="h-6 w-6 text-gray-500"
@@ -41,18 +41,17 @@ const PlantModal = ({ isOpen, onClose, plant }: PlantModalProps) => {
             </svg>
           </button>
 
-          {/* Content */}
-          <div className="mt-6 text-center sm:mt-1.5 sm:text-left"> {/* Increased top margin */}
-            <h3 className="text-2xl font-bold leading-6 text-gray-900 mb-6"> 
+          {/* Container Título e Imágenes (50% altura) */}
+          <div className="flex-1 min-h-[50%] flex flex-col">
+            <h3 className="text-2xl font-bold leading-6 text-gray-900 mb-6">
               {plant.commonName}
             </h3>
 
-            {/* Updated dynamic image grid */}
-            <div className={`mt-6 grid gap-4 ${
+            <div className={`flex-grow grid gap-4 ${
               images.length === 1 ? 'grid-cols-1' : 
               images.length === 2 ? 'grid-cols-2' :
               'grid-cols-3'
-            } place-items-center`}> {/* Increased gap and margin */}
+            } place-items-center`}>
               {images.map((imageUrl, index) => (
                 <div key={index} className={`relative ${
                   images.length === 1 ? 'col-span-1 w-1/2 mx-auto' :
@@ -62,17 +61,30 @@ const PlantModal = ({ isOpen, onClose, plant }: PlantModalProps) => {
                   <img
                     src={imageUrl}
                     alt={`${plant.commonName} - Vista ${index + 1}`}
-                    className="w-full h-80 object-cover rounded-2xl" //hover:scale-105 transition-transform duration-300
+                    className="w-full h-64 object-cover rounded-2xl"
                   />
                 </div>
               ))}
             </div>
+          </div>
 
-            <div className="mt-8 space-y-4"> {/* Increased margin and spacing */}
-                <p className="text-base text-gray-500">
+          {/* Container Información (50% altura) */}
+          <div className="flex-1 min-h-[50%] flex flex-col">
+            {/* Container Información Principal */}
+            <div className="space-y-4 flex-grow">
+              <p className="text-base text-gray-500">
                 <span className="font-bold">Nombre científico:</span>{" "}
-                <span className="italic font-thin">{plant.scientificName}</span>
-                </p>
+                {plant.scientificName.split(/(?<=\S*\s+\S+)\s+/).map((part, index) => (
+                  index === 0 ? (
+                    <span key="name" className="italic font-bold">{part}</span>
+                  ) : (
+                    <span key="author" className="font-normal">{` ${part}`}</span>
+                  )
+                ))}
+              </p>
+              <p className="text-base text-gray-500">
+                <span className="font-bold">Tipo de Coleccion:</span> {plant.herbarium_name}
+              </p>
               <p className="text-base text-gray-500">
                 <span className="font-bold">Familia:</span> {plant.section}
               </p>
@@ -81,6 +93,13 @@ const PlantModal = ({ isOpen, onClose, plant }: PlantModalProps) => {
               </p>
               <p className="text-base text-gray-500">
                 <span className="font-bold">Descripcion:</span> {plant.description}
+              </p>
+            </div>
+
+            {/* Container Referencias */}
+            <div className="mt-auto pt-4 border-t border-gray-200">
+              <p className="text-base text-gray-500">
+                <span className="font-bold">Referencias:</span> {plant.refs ?? "Sin referencias"}
               </p>
             </div>
           </div>

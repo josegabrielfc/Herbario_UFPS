@@ -37,8 +37,12 @@ const ListHerbario = () => {
   const [selectedSection, setSelectedSection] = useState<string>("");
   const [families, setFamilies] = useState<{ id: number; name: string }[]>([]);
   const [allPlants, setAllPlants] = useState<Plant[]>([]); // New state for storing all plants
+  const [noSpeciesMessage, setNoSpeciesMessage] = useState<string | null>(null);
 
-  const mapPlantWithImages = async (plant: { id: number; common_name: any; scientific_name: any; quantity: { toString: () => any; }; description: any; family_name: any; }) => {
+  const mapPlantWithImages = async (plant: {
+    herbarium_name: any;
+    refs: any; id: number; common_name: any; scientific_name: any; quantity: { toString: () => any; }; description: any; family_name: any; 
+}) => {
     const BASE_URL = 'http://localhost:3000';
     const DEFAULT_IMAGE = `${BASE_URL}/uploads/default.jpeg`;
     
@@ -55,7 +59,9 @@ const ListHerbario = () => {
       description: plant.description,
       section: plant.family_name,
       image: imageUrls[0] || DEFAULT_IMAGE,
-      images: imageUrls.length ? imageUrls : [DEFAULT_IMAGE]
+      images: imageUrls.length ? imageUrls : [DEFAULT_IMAGE],
+      refs: plant.refs,
+      herbarium_name: plant.herbarium_name
     };
   };
 
@@ -82,27 +88,82 @@ const ListHerbario = () => {
     loadInitialPlants();
   }, []); // Only runs on mount
 
-  // Modified effect for filtered plants
+  // Modified effect for loading families
   useEffect(() => {
-    const loadFilteredPlants = async () => {
-      if (!selectedHerbariumId && selectedHerbariumName === "Todos los herbarios") {
-        setPlants(allPlants);
-        return;
-      }
-
-      if (!selectedHerbariumId || !selectedFamilyId) {
-        setPlants([]); // Clear plants if no selection
+    const loadFamilies = async () => {
+      // Reset states when no herbarium is selected or "Todas las colecciones"
+      if (!selectedHerbariumId || selectedHerbariumId === 0) {
+        setFamilies([]);
+        setSelectedFamilyId(null);
+        setSelectedSection("");
+        setNoSpeciesMessage(null);
         return;
       }
 
       setLoading(true);
       setError(null);
+      setNoSpeciesMessage(null);
+      
+      try {
+        const familiesData = await getFamiliesByHerbariumId(selectedHerbariumId);
+        
+        if (!familiesData.length) {
+          setFamilies([]);
+          setSelectedFamilyId(null); // Reset family ID when no families exist
+          setSelectedSection("");
+          setNoSpeciesMessage("No hay especies para este tipo");
+          return;
+        }
+
+        const familyNames = familiesData.map(family => ({
+          id: family.id,
+          name: family.name
+        }));
+        
+        setFamilies(familyNames);
+        // Automatically select first family only if families exist
+        if (familyNames.length > 0) {
+          setSelectedFamilyId(familyNames[0].id);
+          setSelectedSection(familyNames[0].name);
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Error loading families');
+        // Reset states on error
+        setFamilies([]);
+        setSelectedFamilyId(null);
+        setSelectedSection("");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadFamilies();
+  }, [selectedHerbariumId]);
+
+  // Modified effect for filtered plants
+  useEffect(() => {
+    const loadFilteredPlants = async () => {
+      if (!selectedHerbariumId && selectedHerbariumName === "Todas las colecciones") {
+        setPlants(allPlants);
+        setNoSpeciesMessage(null);
+        return;
+      }
+
+      if (!selectedHerbariumId || !selectedFamilyId) {
+        setPlants([]);
+        return;
+      }
+
+      setLoading(true);
+      setError(null);
+      setNoSpeciesMessage(null);
 
       try {
         const plantsData = await getPlantsByIds(selectedHerbariumId, selectedFamilyId);
         
         if (!plantsData.length) {
-          setPlants([]); // No plants found for this combination
+          setPlants([]);
+          setNoSpeciesMessage("No hay especies agregadas para esta familia");
           return;
         }
 
@@ -112,7 +173,7 @@ const ListHerbario = () => {
         setPlants(plantsWithImages);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error loading filtered plants');
-        setPlants([]); // Clear plants on error
+        setPlants([]);
       } finally {
         setLoading(false);
       }
@@ -121,58 +182,54 @@ const ListHerbario = () => {
     loadFilteredPlants();
   }, [selectedHerbariumId, selectedFamilyId, selectedHerbariumName]);
 
-  // Load families when herbarium type changes
-  useEffect(() => {
-    const loadFamilies = async () => {
-      if (selectedHerbariumId) {
-        setLoading(true);
-        setError(null);
-        
-        try {
-          const familiesData = await getFamiliesByHerbariumId(selectedHerbariumId);
-          // Transform the families data to match our state structure
-          const familyNames = familiesData.map(family => ({
-            id: family.id,
-            name: family.name
-          }));
-          setFamilies(familyNames);
-        } catch (err) {
-          setError(err instanceof Error ? err.message : 'Error loading families');
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-
-    loadFamilies();
-    // Reset selected family when herbarium changes
-    setSelectedFamilyId(null);
-    setSelectedSection('');
-  }, [selectedHerbariumId]);
-
-  // Filter plants by search term
+  // Modify filteredPlants to include search functionality
   const filteredPlants = plants.filter(plant => {
     const searchLower = searchTerm.toLowerCase();
-    return plant.commonName.toLowerCase().includes(searchLower);
+    return (
+      plant.commonName.toLowerCase().includes(searchLower) ||
+      plant.scientificName.toLowerCase().includes(searchLower)
+    );
   });
 
   return (
     <div className="mt-3 grid h-full grid-cols-1 gap-5 xl:grid-cols-1 2xl:grid-cols-1">
       <div className="col-span-1 h-fit w-full">
         <Banner />
+
+        <div className="mb-4 px-0 mt-4">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Buscar especie..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full rounded-xl border border-gray-300 bg-white py-2 pl-10 pr-4 text-sm text-gray-700 focus:border-green-500 focus:outline-none"
+            />
+            <MagnifyingGlassIcon className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+          </div>
+        </div>
         
         <FiltersSection
           selectedHerbariumType={selectedHerbariumName}
+          selectedHerbariumId={selectedHerbariumId}
           onHerbariumTypeChange={(id, name) => {
             setSelectedHerbariumId(id);
             setSelectedHerbariumName(name);
+            if (id === 0) {
+              setFamilies([]);
+              setSelectedFamilyId(null);
+              setSelectedSection("");
+            }
+            setSearchTerm("");
           }}
           mainFamilies={families.slice(0, 3)}
           dropdownFamilies={families.slice(3)}
           selectedSection={selectedSection}
+          selectedFamilyId={selectedFamilyId}
           setSelectedSection={(familyId, familyName) => {
             setSelectedFamilyId(familyId);
             setSelectedSection(familyName);
+            setSearchTerm("");
           }}
         />
 
@@ -188,21 +245,35 @@ const ListHerbario = () => {
           </div>
         )}
 
-        <div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-4">
-          {filteredPlants.map((plant, index) => (
-            <PlantCard
-              key={plant.id || index}
-              commonName={plant.commonName}
-              scientificName={plant.scientificName}
-              quantity={plant.quantity}
-              image={plant.image}
-              onClick={() => {
-                setSelectedPlant(plant);
-                setIsModalOpen(true);
-              }}
-            />
-          ))}
-        </div>
+        {noSpeciesMessage && !searchTerm && (
+          <div className="flex justify-center py-8">
+            <p className="text-lg text-gray-500">{noSpeciesMessage}</p>
+          </div>
+        )}
+
+        {filteredPlants.length === 0 && searchTerm && (
+          <div className="flex justify-center py-8">
+            <p className="text-lg text-gray-500">No se encontraron especies que coincidan con la búsqueda</p>
+          </div>
+        )}
+
+        {(!noSpeciesMessage || searchTerm) && filteredPlants.length > 0 && (
+          <div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-4">
+            {filteredPlants.map((plant, index) => (
+              <PlantCard
+                key={plant.id || index}
+                commonName={plant.commonName}
+                scientificName={plant.scientificName}
+                quantity={plant.quantity}
+                image={plant.image}
+                onClick={() => {
+                  setSelectedPlant(plant);
+                  setIsModalOpen(true);
+                }}
+              />
+            ))}
+          </div>
+        )}
 
         <PlantModal
           isOpen={isModalOpen}

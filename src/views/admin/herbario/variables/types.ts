@@ -7,4 +7,6 @@ export interface Plant {
   description?: string;
   image: string;
   images: string[];
+  refs?: string;
+  herbarium_name: string;
 }

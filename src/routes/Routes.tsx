@@ -1,7 +1,7 @@
 import Home from "../views/Home";
 import Login from "../views/admin/SignUp/Login";
 import AdminDashboard from "../views/admin/Dashboard";
-import Profile from "../views/admin/services/Management";
+import Management from "../views/admin/herbario/services/ManagementView";
 import { MdHome, MdPerson, MdLock, MdLibraryBooks } from "react-icons/md";
 import ListHerbario from "../views/admin/herbario";
 import ListHerbarioView from "../views/user/herbario";
@@ -47,9 +47,9 @@ const adminRoutes = [
   {
     name: "Administracion",
     layout: "/admin",
-    path: "profile",
+    path: "management",
     icon: <MdPerson className="h-6 w-6" />,
-    component: <ProtectedRoute><Profile /></ProtectedRoute>,
+    component: <ProtectedRoute><Management /></ProtectedRoute>,
   },
   {
     name: "Herbario",

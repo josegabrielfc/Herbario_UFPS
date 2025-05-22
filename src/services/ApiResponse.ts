@@ -22,4 +22,6 @@ export interface PlantResponse {
   status: boolean;
   is_deleted: boolean;
   family_name: string;
+  herbarium_name: string;
+  refs: string;
 }

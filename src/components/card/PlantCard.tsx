@@ -71,13 +71,19 @@ const PlantCard = (props: PlantCardProps) => {
               {" "}
               Nombre Común: {commonName}{" "}
             </p>
-            <p className="mt-1 text-sm font-medium text-gray-600 md:mt-2">
-              Nombre Científico: {scientificName}{" "}
+            <p className="mt-1 text-sm font-bold text-gray-600 md:mt-2">
+              {scientificName.split(/(?<=\S*\s+\S+)\s+/).map((part, index) => (
+              index === 0 ? (
+                <span key="name" className="italic font-bold">{part}</span>
+              ) : (
+                <span key="author" className="font-normal">{` ${part}`}</span>
+              )
+              ))}{" "}
             </p>
           </div>
           {/*    
           <div className="flex flex-row-reverse md:mt-2 lg:mt-0">
-            <span className="z-0 ml-p</div>x inline-flex h-8 w-8 items-center justify-center rounded-full border border-white bg-[#E0E5F2] text-xs text-navy-700 dark:!border-navy-800 dark:bg-gray-800 ">
+            <span className="z-0 ml-p</div>x inl</>ine-flex h-8 w-8 items-center justify-center rounded-full border border-white bg-[#E0E5F2] text-xs text-navy-700 dark:!border-navy-800 dark:bg-gray-800 ">
               +5
             </span>
             {aditional.map((avt, key) => (
@@ -93,17 +99,16 @@ const PlantCard = (props: PlantCardProps) => {
               </span>
             ))}
           </div> */}
-        </div>
-
-        {/* Sección de cantidad */}
+          {/* Sección de cantidad */}
         <div className="flex items-center justify-between md:flex-col md:items-start lg:flex-row lg:justify-between xl:flex-col 2xl:items-start 3xl:flex-row 3xl:items-center 3xl:justify-between">
           <div className="flex">
-            <p className="mb-2 text-sm font-bold text-brand-500 ">
+            <p className="mb-2 text-sm font-normal text-brand-500 ">
               Numero Accesiones: {quantity}
             </p>
           </div>
         </div>
-      </div>git 
+        </div>
+      </div>
     </Card>
   );
 };

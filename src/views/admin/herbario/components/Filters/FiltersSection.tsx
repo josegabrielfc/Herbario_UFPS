@@ -4,26 +4,36 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
 import DropdownFilter from "./DropdownFilter";
 import { getHerbariumTypes, getFamiliesByHerbariumId } from "../../../../../services/herbarium.service";
+import CreateHerbariumModal from "../Herbarium/Modals/CreateHerbariumModal";
+import CreateFamilyModal from '../Herbarium/Modals/CreateFamilyModal';
+import CreatePlantModal from '../Herbarium/Modals/CreatePlantModal';
 
 interface FiltersSectionProps {
   selectedHerbariumType: string;
+  selectedHerbariumId: number | null;
   onHerbariumTypeChange: (id: number, name: string) => void;
-  mainFamilies: Array<{ id: number; name: string }>;  // Updated type
-  dropdownFamilies: Array<{ id: number; name: string }>; // Updated type
+  mainFamilies: Array<{ id: number; name: string }>;
+  dropdownFamilies: Array<{ id: number; name: string }>;
   selectedSection: string;
-  setSelectedSection: (familyId: number, familyName: string) => void; // Updated type
+  selectedFamilyId: number | null;
+  setSelectedSection: (familyId: number, familyName: string) => void;
 }
 
 const FiltersSection = ({
   selectedHerbariumType,
+  selectedHerbariumId,
   onHerbariumTypeChange,
   mainFamilies,
   dropdownFamilies,
   selectedSection,
+  selectedFamilyId,
   setSelectedSection
 }: FiltersSectionProps) => {
   const [herbariumSearch, setHerbariumSearch] = useState("");
   const [herbariumTypes, setHerbariumTypes] = useState<Array<{ id: number; name: string }>>([]);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isCreateFamilyModalOpen, setIsCreateFamilyModalOpen] = useState(false);
+  const [isCreatePlantModalOpen, setIsCreatePlantModalOpen] = useState(false);
 
   // Cargar tipos de herbario al montar el componente
   useEffect(() => {
@@ -36,7 +46,7 @@ const FiltersSection = ({
 
   // Add "All herbaria" option to the list
   const allHerbariumTypes = [
-    { id: 0, name: "Todos los herbarios" },
+    { id: 0, name: "Todas las colecciones" },
     ...herbariumTypes
   ];
 
@@ -50,7 +60,7 @@ const FiltersSection = ({
       {/* Selector de tipo de herbario */}
       <div className="flex flex-col gap-4 md:flex-row md:items-end">
         <h4 className="ml-1 text-2xl font-bold text-navy-700">
-          Tipo de Herbario
+          Tipo de Colección
         </h4>
         
         <Menu as="div" className="relative">
@@ -89,7 +99,7 @@ const FiltersSection = ({
                         } block w-full px-4 py-3 text-left text-sm transition-colors duration-200 hover:text-green-500`}
                         onClick={() => {
                           if (type.id === 0) {
-                            onHerbariumTypeChange(0, "Todos los herbarios");
+                            onHerbariumTypeChange(0, "Todas las colecciones");
                           } else {
                             onHerbariumTypeChange(type.id, type.name);
                           }
@@ -104,35 +114,117 @@ const FiltersSection = ({
             </div>
           </Menu.Items>
         </Menu>
+        <button
+            onClick={() => setIsCreateModalOpen(true)}
+            className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+          >
+            <svg
+              className="h-4 w-4 mr-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            Crear
+          </button>
       </div>
 
-      {/* Lista de filtros */}
-      <ul className="mt-4 flex items-center justify-between md:mt-0 md:justify-center md:!gap-5 2xl:!gap-12">
-        {/* Botones de familias principales */}
-        {mainFamilies.map((family) => (
-          <li key={family.id}>
-            <button
-              className={`text-base font-medium cursor-pointer ${
-                selectedSection === family.name
-                  ? "text-brand-500"
-                  : "text-gray-600"
-              } hover:text-brand-500`}
-              onClick={() => setSelectedSection(family.id, family.name)}
-            >
-              {family.name}
-            </button>
-          </li>
-        ))}
+      {/* Lista de filtros con botón crear familia */}
+      <div className="flex items-center gap-4">
+        <ul className="mt-4 flex items-center justify-between md:mt-0 md:justify-center md:!gap-5 2xl:!gap-12">
+          {/* Botones de familias principales */}
+          {mainFamilies.map((family) => (
+            <li key={family.id}>
+              <button
+                className={`text-base font-medium cursor-pointer ${
+                  selectedSection === family.name
+                    ? "text-brand-500"
+                    : "text-gray-600"
+                } hover:text-brand-500`}
+                onClick={() => setSelectedSection(family.id, family.name)}
+              >
+                {family.name}
+              </button>
+            </li>
+          ))}
 
-        {/* Menú desplegable para familias adicionales */}
-        {dropdownFamilies.length > 0 && (
-          <DropdownFilter
-            dropdownFamilies={dropdownFamilies}
-            selectedSection={selectedSection}
-            setSelectedSection={setSelectedSection}
-          />
-        )}
-      </ul>
+          {/* Menú desplegable para familias adicionales */}
+          {dropdownFamilies.length > 0 && (
+            <DropdownFilter
+              dropdownFamilies={dropdownFamilies}
+              selectedSection={selectedSection}
+              setSelectedSection={setSelectedSection}
+            />
+          )}
+        </ul>
+
+        <div className="flex gap-2">
+          {/* Show Create Family button only when a herbarium is selected and it's not "Todas las colecciones" */}
+          {selectedHerbariumId !== 0 && selectedHerbariumId !== null && (
+            <button
+              onClick={() => setIsCreateFamilyModalOpen(true)}
+              className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+            >
+              <svg className="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Crear Familia
+            </button>
+          )}
+
+          {/* Show Create Plant button only when herbarium and family are selected AND families exist */}
+          {selectedHerbariumId !== 0 && 
+            selectedHerbariumId !== null && 
+            selectedFamilyId !== null && 
+            (mainFamilies.length > 0 || dropdownFamilies.length > 0) && (
+            <button
+              onClick={() => setIsCreatePlantModalOpen(true)}
+              className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+            >
+              <svg className="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Crear Planta
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Modals */}
+      <CreateHerbariumModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSuccess={() => {
+          alert('Herbario insertado correctamente');
+          window.location.reload();
+        }}
+      />
+
+      <CreateFamilyModal
+        isOpen={isCreateFamilyModalOpen}
+        onClose={() => setIsCreateFamilyModalOpen(false)}
+        onSuccess={() => {
+          alert('Familia creada correctamente');
+          window.location.reload();
+        }}
+        herbariumTypeId={selectedHerbariumId || 0}
+      />
+
+      <CreatePlantModal
+        isOpen={isCreatePlantModalOpen}
+        onClose={() => setIsCreatePlantModalOpen(false)}
+        onSuccess={() => {
+          alert('Planta creada correctamente');
+          window.location.reload();
+        }}
+        familyId={selectedFamilyId || 0}
+      />
     </div>
   );
 };

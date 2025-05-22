@@ -27,6 +27,8 @@ interface Plant {
   status: boolean;
   is_deleted: boolean;
   family_name: string;
+  herbarium_name: string;
+  refs: string;
 }
 
 interface PlantImg {
@@ -40,6 +42,21 @@ interface PlantImg {
 interface CreateHerbariumData {
     name: string;
     description: string;
+}
+
+interface CreateFamilyData {
+  herbarium_type_id: number;
+  name: string;
+  description: string;
+}
+
+interface CreatePlantData {
+  family_id: number;
+  common_name: string;
+  scientific_name: string;
+  quantity: number;
+  description: string;
+  refs: string;
 }
 
 export const getHerbariumTypes = async (): Promise<HerbariumType[]> => {
@@ -176,5 +193,55 @@ export const createHerbarium = async (data: CreateHerbariumData): Promise<Herbar
     } catch (error) {
       console.error('Error fetching plant images:', error);
       return [];
+    }
+  };
+
+  export const createFamily = async (data: CreateFamilyData): Promise<any> => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:3000/home/createFamily', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      });
+  
+      const json = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(json.message || 'Error al crear la familia');
+      }
+  
+      return json.data;
+    } catch (error) {
+      console.error('Error creating family:', error);
+      throw error;
+    }
+  };
+
+  export const createPlant = async (data: CreatePlantData): Promise<any> => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:3000/createPlant', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      });
+  
+      const json = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(json.message || 'Error al crear la planta');
+      }
+  
+      return json.data;
+    } catch (error) {
+      console.error('Error creating plant:', error);
+      throw error;
     }
   };
