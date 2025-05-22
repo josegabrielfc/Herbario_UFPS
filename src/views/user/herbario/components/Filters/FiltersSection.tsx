@@ -3,7 +3,7 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
 import DropdownFilter from "./DropdownFilter";
-import { getHerbariumTypes, getFamiliesByHerbariumId } from "../../../../../services/herbarium.service";
+import { Services } from "../../../../../services/services";
 
 interface FiltersSectionProps {
   selectedHerbariumType: string;
@@ -28,7 +28,7 @@ const FiltersSection = ({
   // Cargar tipos de herbario al montar el componente
   useEffect(() => {
     const loadHerbariumTypes = async () => {
-      const types = await getHerbariumTypes();
+      const types = await Services.herbariums.getAll();
       setHerbariumTypes(types.map(type => ({ id: type.id, name: type.name })));
     };
     loadHerbariumTypes();

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { getHerbariumTypes } from '../../../../services/herbarium.service';
+import { Services } from '../../../../services/services';
 
 interface HerbariumType {
   id: number;
@@ -20,7 +20,7 @@ export const useHerbariumStore = create<HerbariumStore>((set) => ({
   fetchHerbariums: async () => {
     set({ loading: true, error: null });
     try {
-      const types = await getHerbariumTypes();
+      const types = await Services.herbariums.getAll();
       set({ herbariums: types });
     } catch (error) {
       set({ error: 'Error loading herbariums' });

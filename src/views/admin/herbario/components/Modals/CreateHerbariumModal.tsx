@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { createHerbarium } from '../../../../../services/herbarium.service';
+import { Services } from '../../../../../services/services';
 
 interface CreateHerbariumModalProps {
   isOpen: boolean;
@@ -21,7 +21,7 @@ const CreateHerbariumModal = ({ isOpen, onClose, onSuccess }: CreateHerbariumMod
     setError(null);
   
     try {
-      await createHerbarium(formData);
+      await Services.herbariums.create(formData);
       onSuccess();
       onClose();
       setFormData({ name: '', description: '' });

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { createFamily } from '../../../../../services/herbarium.service';
+import { Services } from '../../../../../services/services';
 
 interface CreateFamilyModalProps {
   isOpen: boolean;
@@ -22,7 +22,7 @@ const CreateFamilyModal = ({ isOpen, onClose, onSuccess, herbariumTypeId }: Crea
     setError(null);
   
     try {
-      await createFamily({
+      await Services.families.create({
         herbarium_type_id: herbariumTypeId,
         ...formData
       });

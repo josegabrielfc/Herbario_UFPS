@@ -3,7 +3,7 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
 import DropdownFilter from "./DropdownFilter";
-import { getHerbariumTypes } from "../../../../../services/herbarium.service";
+import { Services } from "../../../../../services/services";
 import CreateHerbariumModal from "../Modals/CreateHerbariumModal";
 import CreateFamilyModal from '../Modals/CreateFamilyModal';
 import CreatePlantModal from '../Modals/CreatePlantModal';
@@ -38,13 +38,12 @@ const FiltersSection = ({
   // Cargar tipos de herbario al montar el componente
   useEffect(() => {
     const loadHerbariumTypes = async () => {
-      const types = await getHerbariumTypes();
+      const types = await Services.herbariums.getAll();
       setHerbariumTypes(types.map(type => ({ id: type.id, name: type.name })));
     };
     loadHerbariumTypes();
   }, []);
 
-  // Add "All herbaria" option to the list
   const allHerbariumTypes = [
     { id: 0, name: "Todas las colecciones" },
     ...herbariumTypes

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { createPlant } from '../../../../../services/herbarium.service';
+import { Services } from '../../../../../services/services';
 
 interface CreatePlantModalProps {
   isOpen: boolean;
@@ -25,7 +25,7 @@ const CreatePlantModal = ({ isOpen, onClose, onSuccess, familyId }: CreatePlantM
     setError(null);
   
     try {
-      await createPlant({
+      await Services.plants.create({
         family_id: familyId,
         ...formData,
         quantity: parseInt(formData.quantity)

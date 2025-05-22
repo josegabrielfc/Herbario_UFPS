@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getFamiliesByHerbariumId, createPlant } from '../../../../../../services/herbarium.service';
+import { Services } from '../../../../../../services/services';
 import { useHerbariumStore } from '../../../stores/herbariumStore';
 
 interface PlantFormData {
@@ -38,7 +38,7 @@ export const usePlantForm = () => {
       }
 
       try {
-        const familiesData = await getFamiliesByHerbariumId(parseInt(selectedHerbariumId));
+        const familiesData = await Services.families.getByHerbariumId(parseInt(selectedHerbariumId));
         setFamilies(familiesData);
       } catch (err) {
         setError('Error al cargar las familias');
@@ -55,7 +55,7 @@ export const usePlantForm = () => {
     setSuccess(false);
 
     try {
-      await createPlant({
+      await Services.plants.create({
         ...formData,
         family_id: parseInt(formData.family_id),
         quantity: parseInt(formData.quantity)

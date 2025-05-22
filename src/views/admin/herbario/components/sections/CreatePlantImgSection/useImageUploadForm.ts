@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useUIState } from '../../../hooks/useUIState';
 import { ImageUpload, Plant, SelectedIds } from '../../../types';
-import { getFamiliesByHerbariumId, getPlantsByIds, uploadPlantImage } from '../../../../../../services/herbarium.service';
+import { Services } from '../../../../../../services/services';
 import { useHerbariumStore } from '../../../stores/herbariumStore';
-
 
 export const useImageUploadForm = () => {
   const { loading, error, success, setError, setSuccess, setLoading, resetState } = useUIState();
@@ -27,7 +26,7 @@ export const useImageUploadForm = () => {
       }
 
       try {
-        const familiesData = await getFamiliesByHerbariumId(parseInt(selectedIds.herbariumId));
+        const familiesData = await Services.families.getByHerbariumId(parseInt(selectedIds.herbariumId));
         setFamilies(familiesData);
       } catch (err) {
         setError('Error al cargar las familias');
@@ -46,7 +45,7 @@ export const useImageUploadForm = () => {
       }
 
       try {
-        const plantsData = await getPlantsByIds(
+        const plantsData = await Services.plants.getByIds(
           parseInt(selectedIds.herbariumId),
           parseInt(selectedIds.familyId)
         );
@@ -82,7 +81,7 @@ export const useImageUploadForm = () => {
         descriptions: images.filter(img => img.file !== null).map(img => img.description)
       };
 
-      await uploadPlantImage(parseInt(selectedIds.plantId), uploadData);
+      await Services.plantImages.upload(parseInt(selectedIds.plantId), uploadData);
       
       setSuccess(true);
       setImages(Array(3).fill({ file: null, description: '' }));

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { createFamily } from '../../../../../../services/herbarium.service';
+import { Services } from '../../../../../../services/services';
 import { useHerbariumStore } from '../../../stores/herbariumStore';
 
 interface FamilyFormData {
@@ -28,7 +28,7 @@ export const useFamilyForm = () => {
     setSuccess(false);
 
     try {
-      await createFamily({
+      await Services.families.create({
         ...formData,
         herbarium_type_id: parseInt(formData.herbarium_type_id)
       });

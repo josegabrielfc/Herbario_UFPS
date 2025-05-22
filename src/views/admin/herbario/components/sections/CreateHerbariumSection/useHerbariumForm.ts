@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { createHerbarium } from '../../../../../../services/herbarium.service';
+import { Services } from '../../../../../../services/services';
 import { useHerbariumStore } from '../../../stores/herbariumStore';
 
 interface HerbariumFormData {
@@ -26,7 +26,7 @@ export const useHerbariumForm = () => {
     setSuccess(false);
 
     try {
-      await createHerbarium(formData);
+      await Services.herbariums.create(formData);
       setSuccess(true);
       setFormData({ name: '', description: '' });
       await fetchHerbariums();

@@ -5,7 +5,7 @@ import PlantCard from "../../../components/card/PlantCard";
 import FiltersSection from "./components/Filters/FiltersSection";
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import PlantModal from "./components/PlantModal";
-import { getAllPlants, getPlantsByIds, getPlantImages, getFamiliesByHerbariumId } from '../../../services/herbarium.service';
+import { Services } from "../../../services/services";
 
 /**
  * @component ListHerbario
@@ -46,7 +46,7 @@ const ListHerbario = () => {
     const BASE_URL = 'http://localhost:3000';
     const DEFAULT_IMAGE = `${BASE_URL}/uploads/default.jpeg`;
     
-    const images = await getPlantImages(plant.id);
+    const images = await Services.plantImages.getByPlantId(plant.id);
     const imageUrls = images.map(img => 
       img.image_url ? `${BASE_URL}${img.image_url}` : DEFAULT_IMAGE
     );
@@ -72,7 +72,7 @@ const ListHerbario = () => {
       setError(null);
 
       try {
-        const plantsData = await getAllPlants();
+        const plantsData = await Services.plants.getAll();
         const plantsWithImages = await Promise.all(
           plantsData.map(mapPlantWithImages)
         );
@@ -105,7 +105,7 @@ const ListHerbario = () => {
       setNoSpeciesMessage(null);
       
       try {
-        const familiesData = await getFamiliesByHerbariumId(selectedHerbariumId);
+        const familiesData = await Services.families.getByHerbariumId(selectedHerbariumId);
         
         if (!familiesData.length) {
           setFamilies([]);
@@ -159,7 +159,7 @@ const ListHerbario = () => {
       setNoSpeciesMessage(null);
 
       try {
-        const plantsData = await getPlantsByIds(selectedHerbariumId, selectedFamilyId);
+        const plantsData = await Services.plants.getByIds(selectedHerbariumId, selectedFamilyId);
         
         if (!plantsData.length) {
           setPlants([]);

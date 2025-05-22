@@ -1,7 +1,6 @@
 /* eslint-disable */
 import { JSX } from "react";
 import { Link, useLocation } from "react-router-dom";
-import DashIcon from "../../icons/DashIcon";
 
 /**
  * @component SidebarLinks
@@ -61,7 +60,7 @@ export const SidebarLinks = (props: { routes: RoutesType[] }):JSX.Element => {
                       : "font-medium text-gray-600"
                   }`}
                 >
-                  {route.icon ? route.icon : <DashIcon />}{" "}
+                  {route.icon ? route.icon : <div></div>}{" "}
                 </span>
                 {/* Nombre del enlace */}
                 <p
