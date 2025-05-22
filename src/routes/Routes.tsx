@@ -1,6 +1,5 @@
 import Home from "../views/Home";
 import Login from "../views/admin/SignUp/Login";
-import AdminDashboard from "../views/admin/Dashboard";
 import Management from "../views/admin/herbario/services/ManagementView";
 import { MdHome, MdPerson, MdLock, MdLibraryBooks } from "react-icons/md";
 import ListHerbario from "../views/admin/herbario";
@@ -20,7 +19,7 @@ const userRoutes = [
     name: "Inicio",
     layout: "/user",
     path: "home",
-    icon: <MdLock className="h-6 w-6" />,
+    icon: <MdHome className="h-6 w-6" />,
     component: <Home />,
   },
   {
@@ -37,13 +36,6 @@ const userRoutes = [
  * @description Rutas protegidas para administradores
  */
 const adminRoutes = [
-  {
-    name: "Dashboard",
-    layout: "/admin",
-    path: "dashboard",
-    icon: <MdHome className="h-6 w-6" />,
-    component: <ProtectedRoute><AdminDashboard /></ProtectedRoute>,
-  },
   {
     name: "Administracion",
     layout: "/admin",

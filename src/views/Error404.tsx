@@ -31,7 +31,7 @@ const Error = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       {/* Título del error */}
-      <h2 className="text-2xl font-bold">ERROR</h2>
+      <h2 className="text-2xl font-bold">ERROR - Página no encontrada</h2>
       <br></br>
       <img src="src/assets/img/cryingcat.jpg" alt="Error 404" className="mb-4" />
       {/* Botón de redirección */}
@@ -39,7 +39,7 @@ const Error = () => {
         className="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg"
         onClick={handleError}
       >
-        ERROR 404
+        Error 404
       </button>
     </div>
   );

@@ -3,6 +3,7 @@ import InputField from "../../../components/fields/InputField";
 import Checkbox from "../../../components/checkbox";
 import { useNavigate } from "react-router-dom";
 import { login } from '../../../services/auth.service';
+import SwitchField from "../../../components/fields/SwitchField";
 
 
 /**
@@ -18,10 +19,6 @@ import { login } from '../../../services/auth.service';
  * - Estados visuales en botones e inputs
  *
  * @returns {JSX.Element} Formulario de inicio de sesión
- *
- * @example
- * // Uso básico en rutas
- * <Route path="/auth/login" element={<Login />} />
  */
 export default function Login() {
   const navigate = useNavigate();
@@ -60,23 +57,6 @@ export default function Login() {
         <p className="mb-9 ml-1 text-base text-gray-600">
           Ingresa tu correo y contraseña, para ingresar como administrador!
         </p>
-        {/*
-        <div className="mb-6 flex h-[50px] w-full items-center justify-center gap-2 rounded-xl bg-lightPrimary hover:cursor-pointer">
-          <div className="rounded-full text-xl">
-            <FcGoogle />
-          </div>
-          <h5 className="text-sm font-medium text-navy-700">
-            Sign In with Google
-          </h5>
-        </div> 
-        <div className="mb-6 flex items-center  gap-3">
-          <div className="h-px w-full bg-gray-200" />
-          <p className="text-base text-gray-600"> or </p>
-          <div className="h-px w-full bg-gray-200" />
-        </div>
-        */}
-        {/* Formulario de inicio de sesión */}
-        {/* Campo de correo electrónico */}
         {error && (
           <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg">
             {error}
@@ -103,9 +83,7 @@ export default function Login() {
             type="password"
           />
 
-        {/* Opciones adicionales */}
         <div className="mb-4 flex items-center justify-between px-2">
-          {/* Checkbox para mantener sesión */}
           <div className="flex items-center">
             <Checkbox color="green" extra="" />
             <p className="ml-2 text-sm font-medium text-navy-700">
@@ -113,13 +91,18 @@ export default function Login() {
             </p>
           </div>
 
-          {/* Enlace para recuperar contraseña */}
           <a
             className="text-sm font-medium text-brand-500 hover:text-brand-600 cursor-pointer"
             onClick={() => navigate("/auth/forgot-password")}
           >
             ¿Olvidaste tu contraseña?
           </a>
+        </div>
+        <div>
+          <SwitchField id={""} label={""} desc={""} placeholder={""} mt={undefined} mb={undefined}>
+            
+          </SwitchField>
+
         </div>
 
         {/* Botón de envío */}

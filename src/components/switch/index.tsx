@@ -17,7 +17,7 @@ const Switch = (props: {
     | "gray";
   [x: string]: any;
 }) => {
-  const { extra, color, ...rest } = props;
+  const { extra, color = "green", ...rest } = props;
   return (
     <input
       type="checkbox"

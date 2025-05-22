@@ -22,6 +22,23 @@ export interface LoginResponse {
   };
 }
 
+export interface HerbariumResponse {
+  id: number;
+  name: string;
+  description: string;
+  status: boolean;
+  is_deleted: boolean;
+}
+
+export interface FamilyResponse {
+  id: number;
+  herbarium_type_id: number;
+  name: string;
+  description: string;
+  status: boolean;
+  is_deleted: boolean;
+}
+
 export interface PlantResponse {
   id: number;
   family_id: number;
@@ -34,4 +51,14 @@ export interface PlantResponse {
   family_name: string;
   herbarium_name: string;
   refs: string;
+}
+
+export interface PlantImageResponse {
+  id: number;
+  plant_id: number;
+  image_url: string;
+  description?: string;
+  created_at: string;
+  is_deleted?: boolean;
+  status?: boolean;
 }

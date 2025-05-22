@@ -1,5 +1,5 @@
 import { LoginCredentials } from "../types";
-import { ApiResponse, ApiErrorResponse, LoginResponse } from "./ResponseTypes";
+import { ApiResponse, ApiErrorResponse, LoginResponse } from "./types/ResponseTypes";
 
 
   
