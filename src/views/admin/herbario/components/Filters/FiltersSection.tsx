@@ -3,10 +3,10 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
 import DropdownFilter from "./DropdownFilter";
-import { getHerbariumTypes, getFamiliesByHerbariumId } from "../../../../../services/herbarium.service";
-import CreateHerbariumModal from "../Herbarium/Modals/CreateHerbariumModal";
-import CreateFamilyModal from '../Herbarium/Modals/CreateFamilyModal';
-import CreatePlantModal from '../Herbarium/Modals/CreatePlantModal';
+import { getHerbariumTypes } from "../../../../../services/herbarium.service";
+import CreateHerbariumModal from "../Modals/CreateHerbariumModal";
+import CreateFamilyModal from '../Modals/CreateFamilyModal';
+import CreatePlantModal from '../Modals/CreatePlantModal';
 
 interface FiltersSectionProps {
   selectedHerbariumType: string;

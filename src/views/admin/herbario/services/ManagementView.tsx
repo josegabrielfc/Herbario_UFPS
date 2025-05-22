@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
-import CreateHerbariumSection from '../components/Herbarium/Management/CreateHerbariumSection';
-import CreateFamilySection from '../components/Herbarium/Management/CreateFamilySection';
-import CreatePlantSection from '../components/Herbarium/Management/CreatePlantSection';
-import CollapsibleSection from '../components/Herbarium/Management/CollapsibleSection';
 import { useHerbariumStore } from '../stores/herbariumStore';
+import CollapsibleSection from '../components/common/CollapsibleSection';
+import CreatePlantImgSection from '../components/sections/CreatePlantImgSection/index';
+import CreateHerbariumSection from '../components/sections/CreateHerbariumSection/index';
+import CreateFamilySection from '../components/sections/CreateFamilySection/index';
+import CreatePlantSection from '../components/sections/CreatePlantSection/index';
 
 const Management = () => {
   const fetchHerbariums = useHerbariumStore(state => state.fetchHerbariums);
@@ -27,6 +28,10 @@ const Management = () => {
 
         <CollapsibleSection title="Crear Nueva Planta">
           <CreatePlantSection />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Agregar imagenes a una especie">
+          <CreatePlantImgSection />
         </CollapsibleSection>
 
       </div>

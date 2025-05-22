@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { CollapsibleSectionProps } from '../../types/ui';
 
-interface CollapsibleSectionProps {
-  title: string;
-  children: React.ReactNode;
-}
 
 const CollapsibleSection = ({ title, children }: CollapsibleSectionProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -28,7 +25,7 @@ const CollapsibleSection = ({ title, children }: CollapsibleSectionProps) => {
           isExpanded ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
         } overflow-hidden`}
       >
-        <div className="px-6 pb-6">
+        <div className="px-5 pb-5 pt-4">
           {children}
         </div>
       </div>

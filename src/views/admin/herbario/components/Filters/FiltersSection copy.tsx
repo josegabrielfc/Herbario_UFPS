@@ -4,7 +4,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from "react";
 import DropdownFilter from "./DropdownFilter";
 import { getHerbariumTypes, getFamiliesByHerbariumId } from "../../../../../services/herbarium.service";
-import CreateHerbariumModal from "../Herbarium/Modals/CreateHerbariumModal";
+import CreateHerbariumModal from "../Modals/CreateHerbariumModal";
 
 interface FiltersSectionProps {
   selectedHerbariumType: string;

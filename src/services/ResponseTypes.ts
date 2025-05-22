@@ -12,6 +12,16 @@ export interface ApiErrorResponse {
   data: null;
 }
 
+export interface LoginResponse {
+  token: string;
+  user: {
+    id: number;
+    name: string;
+    email: string;
+    role_id: number;
+  };
+}
+
 export interface PlantResponse {
   id: number;
   family_id: number;

@@ -1,20 +1,17 @@
 import { useState } from 'react';
-import { createPlant } from '../../../../../../services/herbarium.service';
+import { createFamily } from '../../../../../services/herbarium.service';
 
-interface CreatePlantModalProps {
+interface CreateFamilyModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
-  familyId: number;
+  herbariumTypeId: number;
 }
 
-const CreatePlantModal = ({ isOpen, onClose, onSuccess, familyId }: CreatePlantModalProps) => {
+const CreateFamilyModal = ({ isOpen, onClose, onSuccess, herbariumTypeId }: CreateFamilyModalProps) => {
   const [formData, setFormData] = useState({
-    common_name: '',
-    scientific_name: '',
-    quantity: '',
-    description: '',
-    refs: ''
+    name: '',
+    description: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -25,22 +22,15 @@ const CreatePlantModal = ({ isOpen, onClose, onSuccess, familyId }: CreatePlantM
     setError(null);
   
     try {
-      await createPlant({
-        family_id: familyId,
-        ...formData,
-        quantity: parseInt(formData.quantity)
+      await createFamily({
+        herbarium_type_id: herbariumTypeId,
+        ...formData
       });
       onSuccess();
       onClose();
-      setFormData({ 
-        common_name: '',
-        scientific_name: '',
-        quantity: '',
-        description: '',
-        refs: ''
-      });
+      setFormData({ name: '', description: '' });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al crear la planta');
+      setError(err instanceof Error ? err.message : 'Error al crear la familia');
     } finally {
       setLoading(false);
     }
@@ -49,21 +39,36 @@ const CreatePlantModal = ({ isOpen, onClose, onSuccess, familyId }: CreatePlantM
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/25 backdrop-blur-sm">
+    <div
+      className="fixed inset-0 z-50 overflow-y-auto bg-black/25 backdrop-blur-sm"
+      aria-labelledby="modal-title"
+      role="dialog"
+      aria-modal="true"
+    >
       <div className="flex min-h-full items-center justify-center p-4">
         <div className="relative transform overflow-hidden rounded-xl bg-white/80 backdrop-blur-md px-6 pb-6 pt-5 text-left shadow-xl transition-all w-full max-w-lg">
           <button
             onClick={onClose}
-            className="absolute right-4 top-4 rounded-lg p-1 hover:bg-gray-100"
+            className="absolute right-4 top-4 rounded-lg p-1 hover:bg-gray-100 cursor-pointer"
           >
-            <svg className="h-6 w-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg
+              className="h-6 w-6 text-gray-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
 
           <div className="mt-3">
             <h3 className="text-xl font-semibold text-gray-900 mb-5">
-              Crear Nueva Planta
+              Crear Nueva Familia
             </h3>
 
             {error && (
@@ -75,41 +80,14 @@ const CreatePlantModal = ({ isOpen, onClose, onSuccess, familyId }: CreatePlantM
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Nombre común
+                  Nombre
                 </label>
                 <input
                   type="text"
-                  value={formData.common_name}
-                  onChange={(e) => setFormData(prev => ({ ...prev, common_name: e.target.value }))}
+                  value={formData.name}
+                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                   className="w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-sm focus:border-green-500 focus:outline-none"
                   required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Nombre científico
-                </label>
-                <input
-                  type="text"
-                  value={formData.scientific_name}
-                  onChange={(e) => setFormData(prev => ({ ...prev, scientific_name: e.target.value }))}
-                  className="w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-sm focus:border-green-500 focus:outline-none"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Cantidad
-                </label>
-                <input
-                  type="number"
-                  value={formData.quantity}
-                  onChange={(e) => setFormData(prev => ({ ...prev, quantity: e.target.value }))}
-                  className="w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-sm focus:border-green-500 focus:outline-none"
-                  required
-                  min="1"
                 />
               </div>
 
@@ -121,18 +99,6 @@ const CreatePlantModal = ({ isOpen, onClose, onSuccess, familyId }: CreatePlantM
                   value={formData.description}
                   onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                   className="w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-sm focus:border-green-500 focus:outline-none min-h-[100px]"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Referencias
-                </label>
-                <textarea
-                  value={formData.refs}
-                  onChange={(e) => setFormData(prev => ({ ...prev, refs: e.target.value }))}
-                  className="w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-sm focus:border-green-500 focus:outline-none"
                   required
                 />
               </div>
@@ -161,4 +127,4 @@ const CreatePlantModal = ({ isOpen, onClose, onSuccess, familyId }: CreatePlantM
   );
 };
 
-export default CreatePlantModal;
+export default CreateFamilyModal;

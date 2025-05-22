@@ -1,14 +1,13 @@
 import { useState } from 'react';
-import { createFamily } from '../../../../../../services/herbarium.service';
+import { createHerbarium } from '../../../../../services/herbarium.service';
 
-interface CreateFamilyModalProps {
+interface CreateHerbariumModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
-  herbariumTypeId: number;
 }
 
-const CreateFamilyModal = ({ isOpen, onClose, onSuccess, herbariumTypeId }: CreateFamilyModalProps) => {
+const CreateHerbariumModal = ({ isOpen, onClose, onSuccess }: CreateHerbariumModalProps) => {
   const [formData, setFormData] = useState({
     name: '',
     description: ''
@@ -22,15 +21,12 @@ const CreateFamilyModal = ({ isOpen, onClose, onSuccess, herbariumTypeId }: Crea
     setError(null);
   
     try {
-      await createFamily({
-        herbarium_type_id: herbariumTypeId,
-        ...formData
-      });
+      await createHerbarium(formData);
       onSuccess();
       onClose();
       setFormData({ name: '', description: '' });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al crear la familia');
+      setError(err instanceof Error ? err.message : 'Error al crear el tipo de herbario');
     } finally {
       setLoading(false);
     }
@@ -47,6 +43,7 @@ const CreateFamilyModal = ({ isOpen, onClose, onSuccess, herbariumTypeId }: Crea
     >
       <div className="flex min-h-full items-center justify-center p-4">
         <div className="relative transform overflow-hidden rounded-xl bg-white/80 backdrop-blur-md px-6 pb-6 pt-5 text-left shadow-xl transition-all w-full max-w-lg">
+          {/* Close button */}
           <button
             onClick={onClose}
             className="absolute right-4 top-4 rounded-lg p-1 hover:bg-gray-100 cursor-pointer"
@@ -68,7 +65,7 @@ const CreateFamilyModal = ({ isOpen, onClose, onSuccess, herbariumTypeId }: Crea
 
           <div className="mt-3">
             <h3 className="text-xl font-semibold text-gray-900 mb-5">
-              Crear Nueva Familia
+              Crear Nuevo Tipo de Herbario
             </h3>
 
             {error && (
@@ -127,4 +124,4 @@ const CreateFamilyModal = ({ isOpen, onClose, onSuccess, herbariumTypeId }: Crea
   );
 };
 
-export default CreateFamilyModal;
+export default CreateHerbariumModal;

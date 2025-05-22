@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Banner from "./components/Banner";
-import { Plant } from './variables/types';
+import { PlantType } from "../../types";
 import PlantCard from "../../../components/card/PlantCard";
 import FiltersSection from "./components/Filters/FiltersSection";
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
@@ -25,18 +25,18 @@ import { getAllPlants, getPlantsByIds, getPlantImages, getFamiliesByHerbariumId 
  * <ListHerbario />
  */
 const ListHerbario = () => {
-  const [plants, setPlants] = useState<Plant[]>([]);
+  const [plants, setPlants] = useState<PlantType[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedHerbariumId, setSelectedHerbariumId] = useState<number | null>(null);
   const [selectedFamilyId, setSelectedFamilyId] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedPlant, setSelectedPlant] = useState<Plant>({} as Plant);
+  const [selectedPlant, setSelectedPlant] = useState<PlantType>({} as PlantType);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedHerbariumName, setSelectedHerbariumName] = useState("");
   const [selectedSection, setSelectedSection] = useState<string>("");
   const [families, setFamilies] = useState<{ id: number; name: string }[]>([]);
-  const [allPlants, setAllPlants] = useState<Plant[]>([]); // New state for storing all plants
+  const [allPlants, setAllPlants] = useState<PlantType[]>([]); // New state for storing all plants
   const [noSpeciesMessage, setNoSpeciesMessage] = useState<string | null>(null);
 
   const mapPlantWithImages = async (plant: {

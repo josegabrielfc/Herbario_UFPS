@@ -1,50 +1,23 @@
-import { useState } from 'react';
-import { createHerbarium } from '../../../../../../services/herbarium.service';
-import { useHerbariumStore } from '../../../stores/herbariumStore';
+import { useHerbariumForm } from './useHerbariumForm';
+import { UIMessages } from '../../common/UIMessages';
 
 const CreateHerbariumSection = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    description: ''
-  });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  const fetchHerbariums = useHerbariumStore(state => state.fetchHerbariums);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    setSuccess(false);
-
-    try {
-      await createHerbarium(formData);
-      setSuccess(true);
-      setFormData({ name: '', description: '' });
-      await fetchHerbariums();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al crear el herbario');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    formData,
+    setFormData,
+    loading,
+    error,
+    success,
+    handleSubmit
+  } = useHerbariumForm();
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6">
-      {/* <h2 className="text-xl font-semibold mb-4">Crear Nuevo Herbario</h2> */}
-      
-      {error && (
-        <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg">
-          {error}
-        </div>
-      )}
-
-      {success && (
-        <div className="mb-4 p-3 bg-green-50 text-green-700 rounded-lg">
-          Herbario creado exitosamente
-        </div>
-      )}
+      <UIMessages 
+        error={error}
+        success={success}
+        successMessage="Herbario creado exitosamente"
+      />
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>

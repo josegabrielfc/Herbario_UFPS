@@ -1,15 +1,5 @@
-import React, { JSX } from "react";
-
-/**
- * @interface DropdownProps
- * @description Propiedades requeridas para el componente Dropdown
- */
-interface DropdownProps {
-  button: JSX.Element;
-  children: JSX.Element;
-  classNames: string;
-  animation?: string;
-}
+import React from "react";
+import { DropdownProps } from "../../types/ui";
 
 /**
  * @function useOutsideAlerter

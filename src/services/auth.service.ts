@@ -1,15 +1,9 @@
-import { ApiResponse, ApiErrorResponse } from "./ApiResponse";
+import { LoginCredentials } from "../types";
+import { ApiResponse, ApiErrorResponse, LoginResponse } from "./ResponseTypes";
 
-interface LoginCredentials {
-    email: string;
-    password: string;
-  }
+
   
-  interface LoginResponse {
-    token: string;
-  }
-  
-  export const login = async (credentials: LoginCredentials): Promise<string> => {
+  export const login = async (credentials: LoginCredentials): Promise<LoginResponse> => {
     try {
       const response = await fetch('http://localhost:3000/auth/login', {
         method: 'POST',
@@ -19,16 +13,17 @@ interface LoginCredentials {
         body: JSON.stringify(credentials)
       });
   
-      const json = await response.json() as ApiResponse<LoginResponse>;
-  
-      if (!response.ok) {
-        throw new Error(json.message || 'Error durante el login');
-      }
-  
-      // Store token in localStorage
-      localStorage.setItem('token', json.data.token);
-  
-      return json.data.token;
+      const json = await response.json() as ApiResponse<LoginResponse> | ApiErrorResponse;
+
+      if ('data' in json && json.data === null) throw new Error(json.message);
+
+      const loginResponse = json as ApiResponse<LoginResponse>;
+      
+      // Guardar token en localStorage
+      localStorage.setItem('token', loginResponse.data.token);
+      localStorage.setItem('user', JSON.stringify(loginResponse.data.user));
+
+      return loginResponse.data;
     } catch (error) {
       console.error('Error during login:', error);
       throw error;
@@ -37,8 +32,14 @@ interface LoginCredentials {
   
   export const logout = (): void => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
   };
   
   export const getToken = (): string | null => {
     return localStorage.getItem('token');
+  };
+
+  export const getUser = (): LoginResponse['user'] | null => {
+    const userStr = localStorage.getItem('user');
+    return userStr ? JSON.parse(userStr) : null;
   };

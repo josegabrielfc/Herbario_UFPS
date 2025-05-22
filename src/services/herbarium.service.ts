@@ -1,4 +1,4 @@
-import { ApiResponse, ApiErrorResponse, PlantResponse } from "./ApiResponse";
+import { ApiResponse, ApiErrorResponse, PlantResponse } from "./ResponseTypes";
 
 interface HerbariumType {
   id: number;
@@ -37,6 +37,13 @@ interface PlantImg {
     image_url: string;
     description?: string;
     created_at: string;
+    is_deleted?: boolean;
+    status?: boolean;
+}
+
+interface UploadImagesData {
+  images: File[];
+  descriptions: string[];
 }
 
 interface CreateHerbariumData {
@@ -62,8 +69,8 @@ interface CreatePlantData {
 export const getHerbariumTypes = async (): Promise<HerbariumType[]> => {
   try {
     const response = await fetch('http://localhost:3000/home/getHerbariums');
-    const json = await response.json() as ApiResponse<HerbariumType[]>;
-    return json.data;
+    const json = await response.json() as ApiResponse<HerbariumType[]> | ApiErrorResponse;
+    return (json as ApiResponse<HerbariumType[]>).data;
   } catch (error) {
     console.error('Error fetching herbarium types:', error);
     return [];
@@ -105,6 +112,43 @@ export const getPlantsByIds = async (herbariumTypeId: number, familyId: number):
 };
 
 export const uploadPlantImage = async (
+  plantId: number,
+  data: { images: (File | null)[], descriptions: string[] }
+): Promise<PlantImg[]> => {
+  try {
+    const formData = new FormData();
+    
+    // Solo agregar las imágenes y descripciones que existan
+    data.images.forEach((image, index) => {
+      if (image) {
+        formData.append('images', image);
+        formData.append('descriptions', data.descriptions[index] || '');
+      }
+    });
+
+    const token = localStorage.getItem('token');
+    const response = await fetch(`http://localhost:3000/img/plants/${plantId}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: formData
+    });
+
+    const json = await response.json() as ApiResponse<PlantImg[]>;
+    
+    if (!response.ok) {
+      throw new Error(json.message);
+    }
+
+    return json.data;
+  } catch (error) {
+    console.error('Error uploading plant images:', error);
+    throw error;
+  }
+};
+
+export const uploadPlantImage2 = async (
     plantId: number,
     imageFile: File,
     description?: string

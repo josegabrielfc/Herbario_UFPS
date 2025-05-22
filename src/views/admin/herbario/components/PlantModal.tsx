@@ -1,9 +1,9 @@
-import { Plant } from '../variables/types';
+import { PlantType } from "../../../types";
 
 interface PlantModalProps {
   isOpen: boolean;
   onClose: () => void;
-  plant: Plant;
+  plant: PlantType;
 }
 
 const PlantModal = ({ isOpen, onClose, plant }: PlantModalProps) => {

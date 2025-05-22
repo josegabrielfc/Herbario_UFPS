@@ -1,8 +1,5 @@
 import { Navigate, useLocation } from 'react-router-dom';
-
-interface ProtectedRouteProps {
-  children: React.ReactNode;
-}
+import { ProtectedRouteProps } from '../types';
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const token = localStorage.getItem('token');
