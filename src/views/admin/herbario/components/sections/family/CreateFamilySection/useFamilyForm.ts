@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Services } from '../../../../../../services/services';
-import { useHerbariumStore } from '../../../stores/herbariumStore';
+import { Services } from '../../../../../../../services/services';
+import { useHerbariumStore } from '../../../../stores/herbariumStore';
 
 interface FamilyFormData {
   name: string;

@@ -1,28 +1,40 @@
-import { useHerbariumForm } from './useHerbariumForm';
-import { UIMessages } from '../../common/UIMessages';
+import { useFamilyForm } from './useFamilyForm';
+import { UIMessages } from '../../../common/UIMessages';
+import { SelectWithTooltip } from '../../../common/SelectWithTooltip';
 
-const CreateHerbariumSection = () => {
+const CreateFamilySection = () => {
   const {
     formData,
     setFormData,
+    herbariums,
     loading,
     error,
     success,
     handleSubmit
-  } = useHerbariumForm();
+  } = useFamilyForm();
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6">
       <UIMessages 
         error={error}
         success={success}
-        successMessage="Herbario creado exitosamente"
+        successMessage="Familia creada exitosamente"
       />
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
+          <SelectWithTooltip
+            label="Seleccionar Herbario"
+            value={formData.herbarium_type_id}
+            onChange={(value) => setFormData(prev => ({ ...prev, herbarium_type_id: value }))}
+            options={herbariums}
+            required
+          />
+        </div>
+
+        <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Nombre del Herbario
+            Nombre de la Familia
           </label>
           <input
             type="text"
@@ -50,11 +62,11 @@ const CreateHerbariumSection = () => {
           disabled={loading}
           className="px-4 py-2 bg-green-500 text-white rounded-lg text-sm font-medium hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? 'Creando...' : 'Crear Herbario'}
+          {loading ? 'Creando...' : 'Crear Familia'}
         </button>
       </form>
     </div>
   );
 };
 
-export default CreateHerbariumSection;
+export default CreateFamilySection;

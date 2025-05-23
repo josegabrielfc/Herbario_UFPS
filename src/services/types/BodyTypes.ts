@@ -1,6 +1,11 @@
 export interface CreateHerbariumData {
   name: string;
-  description: string;
+  description?: string;
+}
+
+export interface UpdateHerbariumData {
+  name?: string;
+  description?: string;
 }
 
 export interface CreateFamilyData {
@@ -14,8 +19,8 @@ export interface CreatePlantData {
   common_name: string;
   scientific_name: string;
   quantity: number;
-  description: string;
-  refs: string;
+  description?: string;
+  refs?: string;
 }
 
 export interface UploadPlantImagesData {

@@ -4,6 +4,8 @@ import { Services } from '../../../../services/services';
 interface HerbariumType {
   id: number;
   name: string;
+  status: boolean | undefined;
+  is_deleted: boolean | undefined;
 }
 
 interface HerbariumStore {
