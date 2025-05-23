@@ -1,6 +1,6 @@
 import { usePlantForm } from './usePlantForm';
-import { UIMessages } from '../../common/UIMessages';
-import { SelectWithTooltip } from '../../common/SelectWithTooltip';
+import { UIMessages } from '../../../common/UIMessages';
+import { SelectWithTooltip } from '../../../common/SelectWithTooltip';
 
 const CreatePlantSection = () => {
   const {

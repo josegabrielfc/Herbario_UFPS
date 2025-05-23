@@ -20,7 +20,7 @@ export const useFamilyForm = () => {
 
   const herbariums = useHerbariumStore(state => state.herbariums);
   const loading = useHerbariumStore(state => state.loading);
-  const fetchHerbariums = useHerbariumStore(state => state.fetchHerbariums);
+  const refreshAll = useHerbariumStore(state => state.refreshAll);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +34,7 @@ export const useFamilyForm = () => {
       });
       setSuccess(true);
       setFormData({ name: '', description: '', herbarium_type_id: '' });
-      await fetchHerbariums();
+      await refreshAll({ herbariumId: parseInt(formData.herbarium_type_id) });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al crear la familia');
     }

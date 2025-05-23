@@ -9,7 +9,7 @@ export const useHerbariumDeleteForm = () => {
 
   const herbariums = useHerbariumStore(state => state.herbariums);
   const loading = useHerbariumStore(state => state.loading);
-  const fetchHerbariums = useHerbariumStore(state => state.fetchHerbariums);
+  const refreshAll = useHerbariumStore(state => state.refreshAll);
 
   const handleDeleteToggle = async () => {
     if (!selectedHerbariumId) return;
@@ -23,9 +23,8 @@ export const useHerbariumDeleteForm = () => {
     try {
       await Services.herbariums.softDelete(parseInt(selectedHerbariumId));
       setSuccess(true);
-      await fetchHerbariums();
+      await refreshAll({ herbariumId: parseInt(selectedHerbariumId) }); // Actualizamos con contexto
       
-      // Alerta del nuevo estado
       alert(`El herbario "${herbarium.name}" ha sido ${!herbarium.is_deleted ? 'eliminado' : 'restaurado'}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al cambiar el estado de eliminación');

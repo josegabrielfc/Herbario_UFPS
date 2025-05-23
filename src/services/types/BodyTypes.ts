@@ -14,6 +14,11 @@ export interface CreateFamilyData {
   description: string;
 }
 
+export interface UpdateFamilyData {
+  name?: string;
+  description?: string;
+}
+
 export interface CreatePlantData {
   family_id: number;
   common_name: string;
@@ -23,7 +28,20 @@ export interface CreatePlantData {
   refs?: string;
 }
 
+export interface UpdatePlantData {
+  common_name?: string;
+  scientific_name?: string;
+  quantity?: number;
+  description?: string;
+  refs?: string;
+}
+
 export interface UploadPlantImagesData {
   images: (File | null)[];
   descriptions: string[];
+}
+
+export interface UdpatePlantImage{
+  image: File;
+  description?: string;
 }

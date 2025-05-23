@@ -3,7 +3,6 @@ import InputField from "../../../components/fields/InputField";
 import Checkbox from "../../../components/checkbox";
 import { useNavigate } from "react-router-dom";
 import { login } from '../../../services/auth.service';
-import SwitchField from "../../../components/fields/SwitchField";
 
 
 /**
@@ -97,12 +96,6 @@ export default function Login() {
           >
             ¿Olvidaste tu contraseña?
           </a>
-        </div>
-        <div>
-          <SwitchField id={""} label={""} desc={""} placeholder={""} mt={undefined} mb={undefined}>
-            
-          </SwitchField>
-
         </div>
 
         {/* Botón de envío */}

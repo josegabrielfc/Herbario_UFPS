@@ -1,10 +1,15 @@
 import { ApiResponse, ApiErrorResponse, FamilyResponse } from "../types/ResponseTypes";
-import { CreateFamilyData } from "../types/BodyTypes";
+import { CreateFamilyData, UpdateFamilyData } from "../types/BodyTypes";
 
 export class FamiliesService {
   async getByHerbariumId(id: number): Promise<FamilyResponse[]> {
     try {
-      const response = await fetch(`http://localhost:3000/home/getFamiliesById/${id}`);
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:3000/home/getFamiliesById/${id}`, token ? {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+      } : { });
       const json = await response.json() as ApiResponse<FamilyResponse[]> | ApiErrorResponse;
   
       if (json.statusCode === 404 || !json.data) {
@@ -40,6 +45,68 @@ export class FamiliesService {
       return (json as ApiResponse<FamilyResponse[]>).data;
     } catch (error) {
       console.error('Error creating family:', error);
+      throw error;
+    }
+  }
+
+  async update(id: number, data: Partial<UpdateFamilyData>): Promise<void> {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:3000/home/updateFamily/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        const json = await response.json() as ApiErrorResponse;
+        throw new Error(json.message || 'Error al actualizar la familia');
+      }
+    } catch (error) {
+      console.error('Error updating family:', error);
+      throw error;
+    }
+  }
+
+  async toggleStatus(id: number): Promise<void> {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:3000/home/toggleFamilyStatus/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        const json = await response.json() as ApiErrorResponse;
+        throw new Error(json.message || 'Error al cambiar el estado');
+      }
+    } catch (error) {
+      console.error('Error toggling family status:', error);
+      throw error;
+    }
+  }
+
+  async softDelete(id: number): Promise<void> {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:3000/home/softDeleteFamily/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        const json = await response.json() as ApiErrorResponse;
+        throw new Error(json.message || 'Error al cambiar el estado de eliminación');
+      }
+    } catch (error) {
+      console.error('Error soft deleting family:', error);
       throw error;
     }
   }

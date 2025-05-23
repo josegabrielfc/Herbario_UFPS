@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Services } from '../../../../../../services/services';
-import { useHerbariumStore } from '../../../stores/herbariumStore';
+import { Services } from '../../../../../../../services/services';
+import { useHerbariumStore } from '../../../../stores/herbariumStore';
 
 interface PlantFormData {
   family_id: string;
@@ -22,32 +22,23 @@ export const usePlantForm = () => {
   });
   
   const [selectedHerbariumId, setSelectedHerbariumId] = useState('');
-  const [families, setFamilies] = useState<Array<{ id: number; name: string }>>([]);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
 
-  const herbariums = useHerbariumStore(state => state.herbariums);
-  const loading = useHerbariumStore(state => state.loading);
+  const {
+    herbariums,
+    families,
+    loading,
+    refreshAll,
+    fetchFamiliesByHerbarium
+  } = useHerbariumStore();
 
   useEffect(() => {
-    const loadFamilies = async () => {
-      if (!selectedHerbariumId) {
-        setFamilies([]);
-        return;
-      }
-
-      try {
-        const familiesData = await Services.families.getByHerbariumId(parseInt(selectedHerbariumId));
-        setFamilies(familiesData);
-      } catch (err) {
-        setError('Error al cargar las familias');
-        setFamilies([]);
-      }
-    };
-
-    loadFamilies();
-  }, [selectedHerbariumId]);
+    if (selectedHerbariumId) {
+      fetchFamiliesByHerbarium(parseInt(selectedHerbariumId));
+    }
+  }, [selectedHerbariumId, fetchFamiliesByHerbarium]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,6 +60,13 @@ export const usePlantForm = () => {
         description: '',
         refs: ''
       });
+      
+      // Actualizar todo el estado con el contexto completo
+      await refreshAll({ 
+        herbariumId: parseInt(selectedHerbariumId),
+        familyId: parseInt(formData.family_id)
+      });
+      
       setSelectedHerbariumId('');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al crear la planta');

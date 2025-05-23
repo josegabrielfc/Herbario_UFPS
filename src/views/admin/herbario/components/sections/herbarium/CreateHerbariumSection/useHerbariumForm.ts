@@ -17,7 +17,7 @@ export const useHerbariumForm = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   
-  const fetchHerbariums = useHerbariumStore(state => state.fetchHerbariums);
+  const refreshAll = useHerbariumStore(state => state.refreshAll);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,7 +29,7 @@ export const useHerbariumForm = () => {
       await Services.herbariums.create(formData);
       setSuccess(true);
       setFormData({ name: '', description: '' });
-      await fetchHerbariums();
+      await refreshAll(); // Actualiza todo el estado global
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al crear el herbario');
     } finally {
