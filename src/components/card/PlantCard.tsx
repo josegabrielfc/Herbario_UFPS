@@ -72,13 +72,13 @@ const PlantCard = (props: PlantCardProps) => {
               Nombre Común: {commonName}{" "}
             </p>
             <p className="mt-1 text-sm font-bold text-gray-600 md:mt-2">
-              {scientificName.split(/(?<=\S*\s+\S+)\s+/).map((part, index) => (
+            {scientificName.split(/(?<=\S*\s+\S+)\s+/).map((part, index) => (
               index === 0 ? (
-                <span key="name" className="italic font-bold">{part}</span>
+                <span key={`name-${index}`} className="italic font-bold">{part}</span>
               ) : (
-                <span key="author" className="font-normal">{` ${part}`}</span>
+                <span key={`author-${index}`} className="font-normal">{` ${part}`}</span>
               )
-              ))}{" "}
+            ))}
             </p>
           </div>
           {/*    

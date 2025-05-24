@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
+import { useHerbarioList } from "./hooks/useHerbarioList";
 import Banner from "./components/Banner";
-import { PlantType } from "../../types";
 import PlantCard from "../../../components/card/PlantCard";
 import FiltersSection from "./components/Filters/FiltersSection";
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import PlantModal from "./components/PlantModal";
-import { Services } from "../../../services/services";
 
 /**
  * @component ListHerbario
@@ -24,172 +22,28 @@ import { Services } from "../../../services/services";
  * // Uso básico
  * <ListHerbario />
  */
+
 const ListHerbario = () => {
-  const [plants, setPlants] = useState<PlantType[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [selectedHerbariumId, setSelectedHerbariumId] = useState<number | null>(null);
-  const [selectedFamilyId, setSelectedFamilyId] = useState<number | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedPlant, setSelectedPlant] = useState<PlantType>({} as PlantType);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedHerbariumName, setSelectedHerbariumName] = useState("");
-  const [selectedSection, setSelectedSection] = useState<string>("");
-  const [families, setFamilies] = useState<{ id: number; name: string }[]>([]);
-  const [allPlants, setAllPlants] = useState<PlantType[]>([]); // New state for storing all plants
-  const [noSpeciesMessage, setNoSpeciesMessage] = useState<string | null>(null);
-
-  const mapPlantWithImages = async (plant: {
-    herbarium_name: any;
-    refs: any; id: number; common_name: any; scientific_name: any; quantity: { toString: () => any; }; description: any; family_name: any; 
-}) => {
-    const BASE_URL = 'http://localhost:3000';
-    const DEFAULT_IMAGE = `${BASE_URL}/uploads/default.jpeg`;
-    
-    const images = await Services.plantImages.getByPlantId(plant.id);
-    const imageUrls = images.map(img => 
-      img.image_url ? `${BASE_URL}${img.image_url}` : DEFAULT_IMAGE
-    );
-
-    return {
-      id: plant.id,
-      commonName: plant.common_name,
-      scientificName: plant.scientific_name,
-      quantity: plant.quantity.toString(),
-      description: plant.description,
-      section: plant.family_name,
-      image: imageUrls[0] || DEFAULT_IMAGE,
-      images: imageUrls.length ? imageUrls : [DEFAULT_IMAGE],
-      refs: plant.refs,
-      herbarium_name: plant.herbarium_name
-    };
-  };
-
-  // Load all plants only on initial mount
-  useEffect(() => {
-    const loadInitialPlants = async () => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        const plantsData = await Services.plants.getAll();
-        const plantsWithImages = await Promise.all(
-          plantsData.map(mapPlantWithImages)
-        );
-        setAllPlants(plantsWithImages);
-        setPlants(plantsWithImages);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error loading plants');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadInitialPlants();
-  }, []); // Only runs on mount
-
-  // Modified effect for loading families
-  useEffect(() => {
-    const loadFamilies = async () => {
-      // Reset states when no herbarium is selected or "Todas las colecciones"
-      if (!selectedHerbariumId || selectedHerbariumId === 0) {
-        setFamilies([]);
-        setSelectedFamilyId(null);
-        setSelectedSection("");
-        setNoSpeciesMessage(null);
-        return;
-      }
-
-      setLoading(true);
-      setError(null);
-      setNoSpeciesMessage(null);
-      
-      try {
-        const familiesData = await Services.families.getByHerbariumId(selectedHerbariumId);
-        
-        if (!familiesData.length) {
-          setFamilies([]);
-          setSelectedFamilyId(null); // Reset family ID when no families exist
-          setSelectedSection("");
-          setNoSpeciesMessage("No hay especies para este tipo");
-          return;
-        }
-
-        const familyNames = familiesData.map(family => ({
-          id: family.id,
-          name: family.name
-        }));
-        
-        setFamilies(familyNames);
-        // Automatically select first family only if families exist
-        if (familyNames.length > 0) {
-          setSelectedFamilyId(familyNames[0].id);
-          setSelectedSection(familyNames[0].name);
-        }
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error loading families');
-        // Reset states on error
-        setFamilies([]);
-        setSelectedFamilyId(null);
-        setSelectedSection("");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadFamilies();
-  }, [selectedHerbariumId]);
-
-  // Modified effect for filtered plants
-  useEffect(() => {
-    const loadFilteredPlants = async () => {
-      if (!selectedHerbariumId && selectedHerbariumName === "Todas las colecciones") {
-        setPlants(allPlants);
-        setNoSpeciesMessage(null);
-        return;
-      }
-
-      if (!selectedHerbariumId || !selectedFamilyId) {
-        setPlants([]);
-        return;
-      }
-
-      setLoading(true);
-      setError(null);
-      setNoSpeciesMessage(null);
-
-      try {
-        const plantsData = await Services.plants.getByIds(selectedHerbariumId, selectedFamilyId);
-        
-        if (!plantsData.length) {
-          setPlants([]);
-          setNoSpeciesMessage("No hay especies agregadas para esta familia");
-          return;
-        }
-
-        const plantsWithImages = await Promise.all(
-          plantsData.map(mapPlantWithImages)
-        );
-        setPlants(plantsWithImages);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error loading filtered plants');
-        setPlants([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadFilteredPlants();
-  }, [selectedHerbariumId, selectedFamilyId, selectedHerbariumName]);
-
-  // Modify filteredPlants to include search functionality
-  const filteredPlants = plants.filter(plant => {
-    const searchLower = searchTerm.toLowerCase();
-    return (
-      plant.commonName.toLowerCase().includes(searchLower) ||
-      plant.scientificName.toLowerCase().includes(searchLower)
-    );
-  });
+  const {
+    loading,
+    error,
+    searchTerm,
+    setSearchTerm,
+    selectedHerbariumName,
+    selectedHerbariumId,
+    selectedSection,
+    selectedFamilyId,
+    families,
+    noSpeciesMessage,
+    filteredPlants,
+    selectedPlant,
+    isModalOpen,
+    setIsModalOpen,
+    handlePlantSelect,
+    handleHerbariumChange,
+    handleSectionChange,
+    loadingImages,
+  } = useHerbarioList();
 
   return (
     <div className="mt-3 grid h-full grid-cols-1 gap-5 xl:grid-cols-1 2xl:grid-cols-1">
@@ -212,25 +66,12 @@ const ListHerbario = () => {
         <FiltersSection
           selectedHerbariumType={selectedHerbariumName}
           selectedHerbariumId={selectedHerbariumId}
-          onHerbariumTypeChange={(id, name) => {
-            setSelectedHerbariumId(id);
-            setSelectedHerbariumName(name);
-            if (id === 0) {
-              setFamilies([]);
-              setSelectedFamilyId(null);
-              setSelectedSection("");
-            }
-            setSearchTerm("");
-          }}
+          onHerbariumTypeChange={handleHerbariumChange}
           mainFamilies={families.slice(0, 3)}
           dropdownFamilies={families.slice(3)}
           selectedSection={selectedSection}
           selectedFamilyId={selectedFamilyId}
-          setSelectedSection={(familyId, familyName) => {
-            setSelectedFamilyId(familyId);
-            setSelectedSection(familyName);
-            setSearchTerm("");
-          }}
+          setSelectedSection={handleSectionChange}
         />
 
         {loading && (
@@ -259,17 +100,14 @@ const ListHerbario = () => {
 
         {(!noSpeciesMessage || searchTerm) && filteredPlants.length > 0 && (
           <div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-4">
-            {filteredPlants.map((plant, index) => (
+            {filteredPlants.map((plant) => (
               <PlantCard
-                key={plant.id || index}
+                key={plant.id}
                 commonName={plant.commonName}
                 scientificName={plant.scientificName}
                 quantity={plant.quantity}
                 image={plant.image}
-                onClick={() => {
-                  setSelectedPlant(plant);
-                  setIsModalOpen(true);
-                }}
+                onClick={() => handlePlantSelect(plant)} // Cambiamos esto
               />
             ))}
           </div>
@@ -279,6 +117,7 @@ const ListHerbario = () => {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           plant={selectedPlant}
+          loadingImages={loadingImages}
         />
       </div>
     </div>

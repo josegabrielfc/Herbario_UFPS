@@ -1,7 +1,31 @@
-import { ApiResponse, ApiErrorResponse, PlantImageResponse } from "../types/ResponseTypes";
+import { ApiResponse, ApiErrorResponse, PlantImageResponse, PlantWithImageResponse } from "../types/ResponseTypes";
 import { UdpatePlantImage, UploadPlantImagesData } from "../types/BodyTypes";
 
 export class PlantImagesService {
+
+  async getAllPlantsWithImages(): Promise<PlantWithImageResponse[]> {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:3000/img/getAllPlantImages', token ? {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      } : {});
+
+      const json = await response.json() as ApiResponse<PlantWithImageResponse[]> | ApiErrorResponse;
+
+      if (!response.ok || !json.data) {
+        console.warn('No plants with images found');
+        return [];
+      }
+
+      return (json as ApiResponse<PlantWithImageResponse[]>).data;
+    } catch (error) {
+      console.error('Error fetching all plants with images:', error);
+      return [];
+    }
+  }
+  
   async getByPlantId(plantId: number): Promise<PlantImageResponse[]> {
     try {
       const token = localStorage.getItem('token');

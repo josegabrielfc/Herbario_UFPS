@@ -3,6 +3,7 @@ import SidebarHeader from "./SidebarHeader";
 import MiniNavItems from "./MiniNavItems";
 import Links from "./Links";
 import SidebarCard from "./SidebarCard";
+import LogoutButton from "./LogoutButton";
 import { userRoutes, adminRoutes, authRoutes } from "../../../routes/Routes";
 
 interface SidebarComponentProps {
@@ -52,7 +53,7 @@ const SidebarComponent = (props: SidebarComponentProps) => {
 
   // Filter userRoutes based on authentication status
   const filteredUserRoutes = userRoutes.filter(route => {
-    if (route.path === 'herbario' && route.layout === '/user') {
+    if (route.path === 'coleccion' && route.layout === '/user') {
       return !isAuthenticated; // Show herbario only when NOT authenticated
     }
     return true; // Always show other routes
@@ -122,6 +123,8 @@ const SidebarComponent = (props: SidebarComponentProps) => {
           <SidebarCard />
         </div>
       )}
+      {/* Botón de cierre de sesión */}
+      <LogoutButton mini={mini} />
     </div>
   );
 };

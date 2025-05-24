@@ -4,9 +4,10 @@ interface PlantModalProps {
   isOpen: boolean;
   onClose: () => void;
   plant: PlantType;
+  loadingImages?: boolean;
 }
 
-const PlantModal = ({ isOpen, onClose, plant }: PlantModalProps) => {
+const PlantModal = ({ isOpen, onClose, plant, loadingImages = false }: PlantModalProps) => {
   if (!isOpen || !plant) return null;
 
   const images = plant.images || [plant.image];
@@ -47,25 +48,31 @@ const PlantModal = ({ isOpen, onClose, plant }: PlantModalProps) => {
               {plant.commonName}
             </h3>
 
-            <div className={`flex-grow grid gap-4 ${
-              images.length === 1 ? 'grid-cols-1' : 
-              images.length === 2 ? 'grid-cols-2' :
-              'grid-cols-3'
-            } place-items-center`}>
-              {images.map((imageUrl, index) => (
-                <div key={index} className={`relative ${
-                  images.length === 1 ? 'col-span-1 w-1/2 mx-auto' :
-                  images.length === 2 ? 'col-span-1' :
-                  'col-span-1'
-                }`}>
-                  <img
-                    src={imageUrl}
-                    alt={`${plant.commonName} - Vista ${index + 1}`}
-                    className="w-full h-64 object-cover rounded-2xl"
-                  />
-                </div>
-              ))}
-            </div>
+            {loadingImages ? (
+              <div className="flex-grow flex items-center justify-center">
+                <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-green-500"></div>
+              </div>
+            ) : (
+              <div className={`flex-grow grid gap-4 ${
+                images.length === 1 ? 'grid-cols-1' : 
+                images.length === 2 ? 'grid-cols-2' :
+                'grid-cols-3'
+              } place-items-center`}>
+                {images.map((imageUrl, index) => (
+                  <div key={index} className={`relative ${
+                    images.length === 1 ? 'col-span-1 w-1/2 mx-auto' :
+                    images.length === 2 ? 'col-span-1' :
+                    'col-span-1'
+                  }`}>
+                    <img
+                      src={imageUrl}
+                      alt={`${plant.commonName} - Vista ${index + 1}`}
+                      className="w-full h-64 object-cover rounded-2xl"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Container Información (50% altura) */}
@@ -76,9 +83,9 @@ const PlantModal = ({ isOpen, onClose, plant }: PlantModalProps) => {
                 <span className="font-bold">Nombre científico:</span>{" "}
                 {plant.scientificName.split(/(?<=\S*\s+\S+)\s+/).map((part, index) => (
                   index === 0 ? (
-                    <span key="name" className="italic font-bold">{part}</span>
+                    <span key={`name-${index}`} className="italic font-bold">{part}</span>
                   ) : (
-                    <span key="author" className="font-normal">{` ${part}`}</span>
+                    <span key={`author-${index}`} className="font-normal">{` ${part}`}</span>
                   )
                 ))}
               </p>

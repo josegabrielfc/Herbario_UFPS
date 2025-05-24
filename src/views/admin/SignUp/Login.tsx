@@ -37,7 +37,7 @@ export default function Login() {
     try {
       //const token =
       await login({ email, password });
-      navigate("/admin/herbario");
+      navigate("/admin/coleccion");
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al iniciar sesión');
     } finally {

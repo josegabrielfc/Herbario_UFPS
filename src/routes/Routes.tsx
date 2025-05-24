@@ -23,9 +23,9 @@ const userRoutes = [
     component: <Home />,
   },
   {
-    name: "Herbario",
+    name: "Colecciones",
     layout: "/user",
-    path: "herbario",
+    path: "coleccion",
     icon: <MdLibraryBooks className="h-6 w-6" />,
     component: <ListHerbarioView />,
   },
@@ -44,9 +44,9 @@ const adminRoutes = [
     component: <ProtectedRoute><Management /></ProtectedRoute>,
   },
   {
-    name: "Herbario",
+    name: "Colecciones",
     layout: "/admin",
-    path: "herbario",
+    path: "coleccion",
     icon: <MdLibraryBooks className="h-6 w-6" />,
     component: <ProtectedRoute><ListHerbario /></ProtectedRoute>,
   },

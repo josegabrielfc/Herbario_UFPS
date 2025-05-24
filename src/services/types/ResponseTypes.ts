@@ -48,9 +48,14 @@ export interface PlantResponse {
   description: string;
   status: boolean;
   is_deleted: boolean;
+  refs: string;
   family_name: string;
   herbarium_name: string;
-  refs: string;
+}
+
+export interface PlantWithImageResponse extends PlantResponse {
+  image_id: number,
+  image_url: string;
 }
 
 export interface PlantImageResponse {

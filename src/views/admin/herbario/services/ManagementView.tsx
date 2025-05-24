@@ -27,29 +27,29 @@ const Management = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Gestión del Herbario</h1>
+      <h1 className="text-2xl font-bold mb-6">Gestión de la Coleccion</h1>
 
       <div className="space-y-4">
         <CollapsibleSection title="Colecciones">
-          <CollapsibleSection title="Crear Nuevo Herbario">
+          <CollapsibleSection title="Crear Nueva Coleccion">
             <CreateHerbariumSection />
           </CollapsibleSection>
 
           <div className="my-4"></div>
 
-          <CollapsibleSection title="Actualizar Herbario">
+          <CollapsibleSection title="Actualizar Coleccion">
             <UpdateHerbariumSection />
           </CollapsibleSection>
 
           <div className="my-4"></div>
 
-          <CollapsibleSection title="Estado del Herbario">
+          <CollapsibleSection title="Estado de la Coleccion">
             <ToggleHerbariumStatusSection />
           </CollapsibleSection>
 
           <div className="my-4"></div>
 
-          <CollapsibleSection title="Eliminar Herbario">
+          <CollapsibleSection title="Eliminar Coleccion">
             <SoftDeleteHerbariumSection />
           </CollapsibleSection>
         </CollapsibleSection>
@@ -78,26 +78,26 @@ const Management = () => {
           </CollapsibleSection>
         </CollapsibleSection>
 
-        <CollapsibleSection title="Plantas">
-          <CollapsibleSection title="Crear Nueva Planta">
+        <CollapsibleSection title="Especies">
+          <CollapsibleSection title="Crear Nueva Especie">
             <CreatePlantSection />
           </CollapsibleSection>
 
           <div className="my-4"></div>
 
-          <CollapsibleSection title="Editar Planta">
+          <CollapsibleSection title="Editar Especie">
             <UpdatePlantSection />
           </CollapsibleSection>
 
           <div className="my-4"></div>
 
-          <CollapsibleSection title="Estado de la Planta">
+          <CollapsibleSection title="Estado de la Especie">
             <TogglePlantStatusSection />
           </CollapsibleSection>
 
           <div className="my-4"></div>
 
-          <CollapsibleSection title="Eliminar Planta">
+          <CollapsibleSection title="Eliminar Especie">
             <SoftDeletePlantSection />
           </CollapsibleSection>
         </CollapsibleSection>
