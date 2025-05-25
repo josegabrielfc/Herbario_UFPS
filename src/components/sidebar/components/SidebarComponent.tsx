@@ -3,7 +3,7 @@ import SidebarHeader from "./SidebarHeader";
 import MiniNavItems from "./MiniNavItems";
 import Links from "./Links";
 import SidebarCard from "./SidebarCard";
-import LogoutButton from "./LogoutButton";
+//import LogoutButton from "./LogoutButton";
 import { userRoutes, adminRoutes, authRoutes } from "../../../routes/Routes";
 
 interface SidebarComponentProps {
@@ -124,7 +124,7 @@ const SidebarComponent = (props: SidebarComponentProps) => {
         </div>
       )}
       {/* Botón de cierre de sesión */}
-      <LogoutButton mini={mini} />
+      {/* <LogoutButton mini={mini} /> */}
     </div>
   );
 };
