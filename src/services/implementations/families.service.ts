@@ -1,11 +1,13 @@
 import { ApiResponse, ApiErrorResponse, FamilyResponse } from "../types/ResponseTypes";
 import { CreateFamilyData, UpdateFamilyData } from "../types/BodyTypes";
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 export class FamiliesService {
   async getByHerbariumId(id: number): Promise<FamilyResponse[]> {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/home/getFamiliesById/${id}`, token ? {
+      const response = await fetch(`${API_URL}/home/getFamiliesById/${id}`, token ? {
         headers: {
           'Authorization': `Bearer ${token}`
         },
@@ -27,7 +29,7 @@ export class FamiliesService {
   async create(data: CreateFamilyData): Promise<FamilyResponse[]> {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3000/home/createFamily', {
+      const response = await fetch(`${API_URL}/home/createFamily`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -52,7 +54,7 @@ export class FamiliesService {
   async update(id: number, data: Partial<UpdateFamilyData>): Promise<void> {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/home/updateFamily/${id}`, {
+      const response = await fetch(`${API_URL}/home/updateFamily/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +76,7 @@ export class FamiliesService {
   async toggleStatus(id: number): Promise<void> {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/home/toggleFamilyStatus/${id}`, {
+      const response = await fetch(`${API_URL}/home/toggleFamilyStatus/${id}`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -94,7 +96,7 @@ export class FamiliesService {
   async softDelete(id: number): Promise<void> {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/home/softDeleteFamily/${id}`, {
+      const response = await fetch(`${API_URL}/home/softDeleteFamily/${id}`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`

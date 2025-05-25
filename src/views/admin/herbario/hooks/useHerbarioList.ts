@@ -20,7 +20,7 @@ export const useHerbarioList = () => {
   const [loadingImages, setLoadingImages] = useState(false);
 
   const mapPlantWithImage = (plant: PlantWithImageResponse): PlantType => {
-    const BASE_URL = 'http://localhost:3000';
+    const BASE_URL =  import.meta.env.VITE_API_URL || 'http://localhost:3000';
     const DEFAULT_IMAGE = `${BASE_URL}/uploads/default.jpeg`;
     const imageUrl = plant.image_url ? `${BASE_URL}${plant.image_url}` : DEFAULT_IMAGE;
 
@@ -143,7 +143,7 @@ export const useHerbarioList = () => {
     setLoadingImages(true);
     try {
       const images = await Services.plantImages.getByPlantId(plantId);
-      const BASE_URL = 'http://localhost:3000';
+      const BASE_URL =  import.meta.env.VITE_API_URL || 'http://localhost:3000';
       const DEFAULT_IMAGE = `${BASE_URL}/uploads/default.jpeg`;
       
       return images.map(img => 

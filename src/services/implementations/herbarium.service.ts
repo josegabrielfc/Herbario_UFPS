@@ -1,11 +1,13 @@
 import { ApiResponse, ApiErrorResponse, HerbariumResponse } from "../types/ResponseTypes";
 import { CreateHerbariumData, UpdateHerbariumData } from "../types/BodyTypes";
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 export class HerbariumsService {
   async getAll(): Promise<HerbariumResponse[]> {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3000/home/getHerbariums', token ? {
+      const response = await fetch(`${API_URL}/home/getHerbariums`, token ? {
         headers: {
           'Authorization': `Bearer ${token}`
         },
@@ -27,7 +29,7 @@ export class HerbariumsService {
   async create(data: CreateHerbariumData): Promise<HerbariumResponse[]> {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3000/home/createHerbarium', {
+      const response = await fetch(`${API_URL}/home/createHerbarium`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -52,7 +54,7 @@ export class HerbariumsService {
   async update(id: number, data: UpdateHerbariumData): Promise<HerbariumResponse[]> {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/home/updateHerbarium/${id}`, {
+      const response = await fetch(`${API_URL}/home/updateHerbarium/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +79,7 @@ export class HerbariumsService {
   async toggleStatus(id: number): Promise<void> {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/home/toggleHerbariumStatus/${id}`, {
+      const response = await fetch(`${API_URL}/home/toggleHerbariumStatus/${id}`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -97,7 +99,7 @@ export class HerbariumsService {
   async softDelete(id: number): Promise<void> {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/home/softDelete/${id}`, {
+      const response = await fetch(`${API_URL}/home/softDelete/${id}`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`

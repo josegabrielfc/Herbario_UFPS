@@ -1,11 +1,12 @@
 import { LoginCredentials } from "../types";
 import { ApiResponse, ApiErrorResponse, LoginResponse } from "./types/ResponseTypes";
 
-
+// En cualquier archivo donde uses la URL de la API
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
   
   export const login = async (credentials: LoginCredentials): Promise<LoginResponse> => {
-    try {
-      const response = await fetch('http://localhost:3000/auth/login', {
+  try {
+    const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

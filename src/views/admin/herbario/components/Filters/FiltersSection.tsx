@@ -35,6 +35,8 @@ const FiltersSection = ({
   const [isCreateFamilyModalOpen, setIsCreateFamilyModalOpen] = useState(false);
   const [isCreatePlantModalOpen, setIsCreatePlantModalOpen] = useState(false);
 
+  const token = localStorage.getItem('token');
+
   // Cargar tipos de herbario al montar el componente
   useEffect(() => {
     const loadHerbariumTypes = async () => {
@@ -113,6 +115,8 @@ const FiltersSection = ({
             </div>
           </Menu.Items>
         </Menu>
+
+        {token && (
         <button
             onClick={() => setIsCreateModalOpen(true)}
             className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
@@ -132,6 +136,7 @@ const FiltersSection = ({
             </svg>
             Crear
           </button>
+          )}
       </div>
 
       {/* Lista de filtros con botón crear familia */}
@@ -165,7 +170,7 @@ const FiltersSection = ({
 
         <div className="flex gap-2">
           {/* Show Create Family button only when a herbarium is selected and it's not "Todas las colecciones" */}
-          {selectedHerbariumId !== 0 && selectedHerbariumId !== null && (
+          {token && selectedHerbariumId !== 0 && selectedHerbariumId !== null && (
             <button
               onClick={() => setIsCreateFamilyModalOpen(true)}
               className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
@@ -178,7 +183,7 @@ const FiltersSection = ({
           )}
 
           {/* Show Create Plant button only when herbarium and family are selected AND families exist */}
-          {selectedHerbariumId !== 0 && 
+          {token && selectedHerbariumId !== 0 && 
             selectedHerbariumId !== null && 
             selectedFamilyId !== null && 
             (mainFamilies.length > 0 || dropdownFamilies.length > 0) && (

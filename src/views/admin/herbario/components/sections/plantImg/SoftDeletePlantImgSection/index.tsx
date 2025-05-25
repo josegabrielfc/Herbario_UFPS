@@ -24,7 +24,7 @@ const TogglePlantImgStatusSection = () => {
   } = usePlantImgDeleteForm();
 
   const selectedImage = plantImages.find(img => img.id === selectedImageId);
-  const BASE_URL = 'http://localhost:3000';
+  const BASE_URL =  import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6">

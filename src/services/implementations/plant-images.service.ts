@@ -1,12 +1,14 @@
 import { ApiResponse, ApiErrorResponse, PlantImageResponse, PlantWithImageResponse } from "../types/ResponseTypes";
 import { UdpatePlantImage, UploadPlantImagesData } from "../types/BodyTypes";
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 export class PlantImagesService {
 
   async getAllPlantsWithImages(): Promise<PlantWithImageResponse[]> {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3000/img/getAllPlantImages', token ? {
+      const response = await fetch(`${API_URL}/img/getAllPlantImages`, token ? {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -29,7 +31,7 @@ export class PlantImagesService {
   async getByPlantId(plantId: number): Promise<PlantImageResponse[]> {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/img/getImgPlantsById/${plantId}`, token ? {
+      const response = await fetch(`${API_URL}/img/getImgPlantsById/${plantId}`, token ? {
         headers: {
           'Authorization': `Bearer ${token}`
         },
@@ -61,7 +63,7 @@ export class PlantImagesService {
       });
   
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/img/plants/${plantId}`, {
+      const response = await fetch(`${API_URL}/img/plants/${plantId}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -92,7 +94,7 @@ export class PlantImagesService {
       }
 
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/img/updateImage/${id}`, {
+      const response = await fetch(`${API_URL}/img/updateImage/${id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -113,7 +115,7 @@ export class PlantImagesService {
   async toggleStatus(id: number): Promise<void> {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/img/toggleImageStatus/${id}`, {
+      const response = await fetch(`${API_URL}/img/toggleImageStatus/${id}`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -133,7 +135,7 @@ export class PlantImagesService {
   async softDelete(id: number): Promise<void> {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/img/softDeleteImage/${id}`, {
+      const response = await fetch(`${API_URL}/img/softDeleteImage/${id}`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`

@@ -1,11 +1,13 @@
 import { ApiResponse, ApiErrorResponse, PlantResponse } from "../types/ResponseTypes";
 import { CreatePlantData, UpdatePlantData } from "../types/BodyTypes";
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 export class PlantsService {
   async getAll(): Promise<PlantResponse[]> {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3000/home/getPlants', token ? {
+      const response = await fetch(`${API_URL}/home/getPlants`, token ? {
         headers: {
           'Authorization': `Bearer ${token}`
         },
@@ -26,7 +28,7 @@ export class PlantsService {
   async getByIds(herbariumTypeId: number, familyId: number): Promise<PlantResponse[]> {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/home/getPlantByIds/${herbariumTypeId}/${familyId}`, token ? {
+      const response = await fetch(`${API_URL}/home/getPlantByIds/${herbariumTypeId}/${familyId}`, token ? {
         headers: {
           'Authorization': `Bearer ${token}`
         },
@@ -48,7 +50,7 @@ export class PlantsService {
   async create(data: CreatePlantData): Promise<PlantResponse[]> {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3000/createPlant', {
+      const response = await fetch(`${API_URL}/createPlant`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -73,7 +75,7 @@ export class PlantsService {
   async update(id: number, data: UpdatePlantData): Promise<void> {
     try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:3000/updatePlant/${id}`, {
+        const response = await fetch(`${API_URL}/updatePlant/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -96,7 +98,7 @@ export class PlantsService {
     try {
       console.log('Toggling status for plant with ID:', id);
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/togglePlantStatus/${id}`, {
+      const response = await fetch(`${API_URL}/togglePlantStatus/${id}`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -116,7 +118,7 @@ export class PlantsService {
   async softDelete(id: number): Promise<void> {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/softDeletePlant/${id}`, {
+      const response = await fetch(`${API_URL}/softDeletePlant/${id}`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`
