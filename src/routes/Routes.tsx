@@ -1,9 +1,11 @@
 import Home from "../views/Home";
 import Login from "../views/admin/SignUp/Login";
 import Management from "../views/admin/herbario/services/ManagementView";
-import { MdHome, MdPerson, MdLock, MdLibraryBooks } from "react-icons/md";
+import { MdHome, MdPerson, MdPersonAdd, MdLock, MdLibraryBooks } from "react-icons/md";
 import ListHerbario from "../views/admin/herbario";
 import ForgotPassword from "../views/admin/SignUp/ForgotPassword";
+import ChangePassword from "../views/admin/SignUp/ChangePassword";
+import CreateUserForm from "../views/admin/SignUp/CreateUserForm";
 import ProtectedRoute from "./ProtectedRoute";
 
 
@@ -49,6 +51,13 @@ const adminRoutes = [
     icon: <MdLibraryBooks className="h-6 w-6" />,
     component: <ProtectedRoute><ListHerbario /></ProtectedRoute>,
   },
+  {
+    name: "Crear usuario",
+    layout: "/admin",
+    path: "registro",
+    icon: <MdPersonAdd className="h-6 w-6" />,
+    component: <ProtectedRoute><CreateUserForm /></ProtectedRoute>,
+  }
 ];
 
 /**
@@ -67,11 +76,19 @@ const authRoutes = [
     component: <Login />,
   },
   {
-    name: "Inicio de Sesión",
+    name: "Olvido contraseña",
     layout: "/auth",
     path: "forgot-password",
     icon: <MdLock className="h-6 w-6" />,
     component: <ForgotPassword />,
+    hide: true,
+  },
+  {
+    name: "Cambiar contraseña",
+    layout: "/auth",
+    path: "change-password",
+    icon: <MdLock className="h-6 w-6" />,
+    component: <ChangePassword />,
     hide: true,
   },
 ];

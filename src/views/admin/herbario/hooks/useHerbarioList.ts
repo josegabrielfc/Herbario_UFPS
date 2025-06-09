@@ -14,7 +14,7 @@ export const useHerbarioList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedHerbariumName, setSelectedHerbariumName] = useState("");
   const [selectedSection, setSelectedSection] = useState<string>("");
-  const [families, setFamilies] = useState<{ id: number; name: string }[]>([]);
+  const [families, setFamilies] = useState<{ id: number; name: string; status?: boolean }[]>([]);
   const [allPlants, setAllPlants] = useState<PlantType[]>([]);
   const [noSpeciesMessage, setNoSpeciesMessage] = useState<string | null>(null);
   const [loadingImages, setLoadingImages] = useState(false);
@@ -35,7 +35,8 @@ export const useHerbarioList = () => {
       image_id: plant.image_id,
       images: [], // Lo inicializamos vacío, se llenará al abrir el modal
       refs: plant.refs,
-      herbarium_name: plant.herbarium_name
+      herbarium_name: plant.herbarium_name,
+      status: plant.status
     };
   };
 
@@ -82,7 +83,8 @@ export const useHerbarioList = () => {
 
       const familyNames = familiesData.map(family => ({
         id: family.id,
-        name: family.name
+        name: family.name,
+        status: family.status
       }));
       
       setFamilies(familyNames);
@@ -146,9 +148,10 @@ export const useHerbarioList = () => {
       const BASE_URL =  import.meta.env.VITE_API_URL || 'http://localhost:3000';
       const DEFAULT_IMAGE = `${BASE_URL}/uploads/default.jpeg`;
       
-      return images.map(img => 
-        img.image_url ? `${BASE_URL}${img.image_url}` : DEFAULT_IMAGE
-      );
+      return images.map(img => ({
+        url: img.image_url ? `${BASE_URL}${img.image_url}` : DEFAULT_IMAGE,
+        description: img.description || ""
+      }));
     } catch (error) {
       console.error('Error loading plant images:', error);
       return [];
@@ -198,7 +201,10 @@ export const useHerbarioList = () => {
     // Primero establecemos la planta con su imagen principal
     setSelectedPlant({
       ...plant,
-      images: [plant.image] // Inicialmente solo mostramos la imagen principal
+      images: [{
+        url: plant.image,
+        description: ""
+      }] // Inicialmente solo mostramos la imagen principal
     });
     setIsModalOpen(true);
 
@@ -208,7 +214,10 @@ export const useHerbarioList = () => {
     // Actualizamos el selectedPlant con todas las imágenes
     setSelectedPlant(prev => ({
       ...prev,
-      images: plantImages.length ? plantImages : [plant.image]
+      images: plantImages.length ? plantImages : [{
+        url: plant.image,
+        description: ""
+      }]
     }));
   };
 

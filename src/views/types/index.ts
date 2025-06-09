@@ -1,3 +1,8 @@
+export interface PlantImageType {
+  url: string;
+  description: string;
+}
+
 export interface PlantType {
   id: number;
   commonName: string;
@@ -5,11 +10,12 @@ export interface PlantType {
   quantity: string;
   description?: string;
   image: string;
-  images: string[];
+  images: PlantImageType[];  // Cambiamos el tipo de string[] a PlantImageType[]
   refs?: string;
   herbarium_name: string;
   section: string;// Sección o family_name
   image_id: number;
+  status?: boolean;
 }
 
 export interface Plant {

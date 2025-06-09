@@ -14,6 +14,8 @@ interface InputFieldProps {
   state?: string;
   disabled?: boolean;
   type?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 /**
@@ -50,13 +52,24 @@ interface InputFieldProps {
  * />
  */
 function InputField(props: InputFieldProps) {
-  const { label, id, extra, type, placeholder, variant, state, disabled } = props;
+  const { 
+    label, 
+    id, 
+    extra, 
+    type, 
+    placeholder, 
+    variant, 
+    state, 
+    disabled,
+    value,
+    onChange 
+  } = props;
   
   // Estado para controlar la visibilidad de la contraseña
   const [showPassword, setShowPassword] = useState(false);
 
   // Verifica si es un campo de contraseña
-  const isPassword = type === "password" && id === "password";
+  const isPassword = type === "password";
 
   return (
     <div className={`${extra}`}>
@@ -77,6 +90,8 @@ function InputField(props: InputFieldProps) {
           id={id}
           maxLength={30}
           placeholder={placeholder}
+          value={value}
+          onChange={onChange}
           className={`mt-2 flex h-12 w-full items-center justify-center rounded-xl border bg-white/0 p-3 text-sm outline-none [&::-ms-reveal]:hidden [&::-ms-clear]:hidden [&::-webkit-credentials-auto-fill-button]:hidden ${
             disabled === true
               ? "!border-none !bg-gray-100"

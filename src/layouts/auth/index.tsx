@@ -39,7 +39,7 @@ export default function Auth() {
   };
 
   // Determina si estamos en la ruta de recuperación de contraseña
-  const route = window.location.pathname === "/auth/forgot-password"
+  const route = window.location.pathname === "/auth/forgot-password" || window.location.pathname === "/auth/change-password";
 
   return (
     <div>

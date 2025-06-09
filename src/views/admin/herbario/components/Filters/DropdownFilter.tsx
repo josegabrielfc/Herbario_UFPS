@@ -4,7 +4,7 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 interface DropdownFilterProps {
-  dropdownFamilies: Array<{ id: number; name: string }>;
+  dropdownFamilies: Array<{ id: number; name: string; status?: boolean }>;
   selectedSection: string;
   setSelectedSection: (familyId: number, familyName: string) => void;
 }
@@ -80,7 +80,9 @@ const DropdownFilter = ({
                     } ${
                       selectedSection === family.name
                         ? "text-green-500 bg-green-500/5"
-                        : "text-gray-700"
+                        : !family.status
+                          ? "text-red-500"
+                          : "text-gray-700"
                     } block w-full px-4 py-3 text-left text-sm transition-colors duration-200 hover:text-green-500`}
                     onClick={() => setSelectedSection(family.id, family.name)}
                   >

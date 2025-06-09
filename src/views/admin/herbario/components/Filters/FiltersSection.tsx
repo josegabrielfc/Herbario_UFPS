@@ -12,8 +12,8 @@ interface FiltersSectionProps {
   selectedHerbariumType: string;
   selectedHerbariumId: number | null;
   onHerbariumTypeChange: (id: number, name: string) => void;
-  mainFamilies: Array<{ id: number; name: string }>;
-  dropdownFamilies: Array<{ id: number; name: string }>;
+  mainFamilies: Array<{ id: number; name: string; status?: boolean }>;
+  dropdownFamilies: Array<{ id: number; name: string; status?: boolean }>;
   selectedSection: string;
   selectedFamilyId: number | null;
   setSelectedSection: (familyId: number, familyName: string) => void;
@@ -30,7 +30,7 @@ const FiltersSection = ({
   setSelectedSection
 }: FiltersSectionProps) => {
   const [herbariumSearch, setHerbariumSearch] = useState("");
-  const [herbariumTypes, setHerbariumTypes] = useState<Array<{ id: number; name: string }>>([]);
+  const [herbariumTypes, setHerbariumTypes] = useState<Array<{ id: number; name: string; status?: boolean }>>([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isCreateFamilyModalOpen, setIsCreateFamilyModalOpen] = useState(false);
   const [isCreatePlantModalOpen, setIsCreatePlantModalOpen] = useState(false);
@@ -41,13 +41,13 @@ const FiltersSection = ({
   useEffect(() => {
     const loadHerbariumTypes = async () => {
       const types = await Services.herbariums.getAll();
-      setHerbariumTypes(types.map(type => ({ id: type.id, name: type.name })));
+      setHerbariumTypes(types.map(type => ({ id: type.id, name: type.name, status: type.status })));
     };
     loadHerbariumTypes();
   }, []);
 
   const allHerbariumTypes = [
-    { id: 0, name: "Todas las colecciones" },
+    { id: 0, name: "Todas las colecciones", status: true },
     ...herbariumTypes
   ];
 
@@ -96,7 +96,9 @@ const FiltersSection = ({
                         } ${
                           selectedHerbariumType === type.name
                             ? "text-green-500 bg-green-500/5"
-                            : "text-gray-700"
+                            : !type.status 
+                              ? "text-red-500" 
+                              : "text-gray-700"
                         } block w-full px-4 py-3 text-left text-sm transition-colors duration-200 hover:text-green-500`}
                         onClick={() => {
                           if (type.id === 0) {
@@ -146,12 +148,18 @@ const FiltersSection = ({
           {mainFamilies.map((family) => (
             <li key={family.id}>
               <button
-                className={`text-base font-medium cursor-pointer ${
-                  selectedSection === family.name
-                    ? "text-brand-500"
-                    : "text-gray-600"
-                } hover:text-brand-500`}
+                className={`
+                  text-base font-medium cursor-pointer transition-colors duration-200
+                  ${family.status 
+                    ? selectedSection === family.name
+                      ? "text-green-500"
+                      : "text-gray-600 hover:text-green-500"
+                    : "text-red-500"
+                  }
+                `}
                 onClick={() => setSelectedSection(family.id, family.name)}
+                aria-pressed={selectedSection === family.name}
+                title={family.status ? family.name : `${family.name} (Inactivo)`}
               >
                 {family.name}
               </button>

@@ -6,18 +6,17 @@ export default function Footer() {
       </p>
       <ul className="flex flex-wrap items-center sm:flex-nowrap">
         <li className="mr-12">
-          <a
-            target="blank"
-            href="https://ww2.ufps.edu.co/oferta-academica/ingenieria-agronomica"
+            <a
+            href="mailto:josegabrielfc@ufps.edu.co"
             className="text-sm font-bold text-gray-600 hover:text-gray-600 md:text-base lg:text-white lg:hover:text-white"
-          >
-            Support
-          </a>
+            >
+            Soporte
+            </a>
         </li>
         <li className="mr-12">
           <a
             target="blank"
-            href="https://ww2.ufps.edu.co/oferta-academica/ingenieria-agronomica"
+            href="https://github.com/josegabrielfc/api_herbario_ufps/blob/main/LICENSE.txt"
             className="text-sm font-bold text-gray-600 hover:text-gray-600 md:text-base lg:text-white lg:hover:text-white"
           >
             License
@@ -26,10 +25,10 @@ export default function Footer() {
         <li className="mr-12">
           <a
             target="blank"
-            href="https://ww2.ufps.edu.co/oferta-academica/ingenieria-agronomica"
+            href="https://drive.google.com/file/d/1VPr3wUwaCoOzbmUNYRUaT82MuGnBN6Uq/view?usp=drive_link"
             className="text-sm font-bold text-gray-600 hover:text-gray-600 md:text-base lg:text-white lg:hover:text-white"
           >
-            Terms of Use
+            Manual
           </a>
         </li>
         <li>

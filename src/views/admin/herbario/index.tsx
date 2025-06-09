@@ -107,6 +107,7 @@ const ListHerbario = () => {
                 scientificName={plant.scientificName}
                 quantity={plant.quantity}
                 image={plant.image}
+                status={plant.status}
                 onClick={() => handlePlantSelect(plant)} // Cambiamos esto
               />
             ))}

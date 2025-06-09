@@ -12,14 +12,20 @@ export interface ApiErrorResponse {
   data: null;
 }
 
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  role_id: number;
+}
+
 export interface LoginResponse {
   token: string;
-  user: {
-    id: number;
-    name: string;
-    email: string;
-    role_id: number;
-  };
+  user: User;
+}
+
+export interface CreateUserResponse {
+  user: User;
 }
 
 export interface HerbariumResponse {

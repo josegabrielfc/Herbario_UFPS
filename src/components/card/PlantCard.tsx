@@ -14,6 +14,7 @@ interface PlantCardProps {
   aditional?: string[];
   download?: string;
   extra?: string;
+  status?: boolean;
   onClick?: () => void; // Add onClick handler prop
 }
 
@@ -26,7 +27,7 @@ interface PlantCardProps {
  * @returns {JSX.Element} Componente PlantCard
  */
 const PlantCard = (props: PlantCardProps) => {
-  const { commonName, scientificName, quantity, image, extra, onClick } = props;
+  const { commonName, scientificName, quantity, image, extra, status, onClick } = props;
   
   // Estado para controlar el botón de favorito
   const [heart, setHeart] = useState(true);
@@ -67,7 +68,7 @@ const PlantCard = (props: PlantCardProps) => {
         {/* Sección de información de la planta */}
         <div className="mb-3 flex items-center justify-between px-1 md:flex-col md:items-start lg:flex-row lg:justify-between xl:flex-col xl:items-start 3xl:flex-row 3xl:justify-between">
           <div className="mb-2">
-            <p className="text-lg font-bold text-navy-700 ">
+            <p className={`text-lg font-bold ${!status ? 'text-red-500' : 'text-navy-700'}`}>
               {" "}
               Nombre Común: {commonName}{" "}
             </p>
