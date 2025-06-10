@@ -78,9 +78,6 @@ const PlantModal = ({ isOpen, onClose, plant, loadingImages = false }: PlantModa
                         alt={`${plant.commonName} - Vista ${index + 1}`}
                         className="w-full h-64 object-cover rounded-2xl hover:opacity-90 transition-opacity"
                       />
-                      {image.description && (
-                        <p className="mt-2 text-sm text-gray-600">{image.description}</p>
-                      )}
                     </div>
                   ))}
                 </div>
