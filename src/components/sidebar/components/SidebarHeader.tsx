@@ -63,14 +63,14 @@ const SidebarHeader = ({ mini, onClose, onToggleMini }: SidebarHeaderProps) => {
       </span>
 
       {/* Título del Herbario */}
-      <div className="mt-[50px] flex items-center justify-center w-full">
+      <div className="mt-[36px] flex items-center justify-center w-full">
         <div className="mt-1 text-[26px] font-bold uppercase text-navy-700  text-center">
           HERBARIO <span className="font-medium">UFPS</span>
         </div>
       </div>
 
       {/* Línea divisoria */}
-      <div className="mt-[58px] mb-7 h-px bg-gray-300" />
+      <div className="mt-[24px] mb-4 h-px bg-gray-300" />
     </>
   );
 };

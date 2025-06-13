@@ -1,5 +1,5 @@
 import Footer from "../../components/footer/FooterAuthDefault";
-import authImg from "../../assets/img/auth/auth.webp";
+import authImg from "../../../public/auth.webp";
 import { Link, Routes, Route, Navigate } from "react-router-dom";
 import { authRoutes } from "../../routes/Routes";
 

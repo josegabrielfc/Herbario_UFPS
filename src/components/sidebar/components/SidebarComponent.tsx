@@ -68,7 +68,7 @@ const SidebarComponent = (props: SidebarComponentProps) => {
   // Clases CSS dinámicas para el sidebar
   const sidebarClasses = `
     sm:none duration-175 linear fixed !z-50 flex min-h-full flex-col 
-    bg-white pb-10 shadow-2xl shadow-white/5 transition-all 
+    bg-white shadow-2xl shadow-white/5 transition-all 
     md:!z-50 lg:!z-50 xl:!z-0 
     ${open ? "translate-x-0" : "-translate-x-96"}
     ${mini ? "w-20" : "w-[300px]"}
@@ -85,7 +85,7 @@ const SidebarComponent = (props: SidebarComponentProps) => {
       />
 
       {/* Lista de enlaces de navegación */}
-      <ul className="mb-auto pt-1">
+      <ul className="mb-auto">
         {mini ? (
           // Modo minimizado: muestra solo iconos
           <div className="flex flex-col items-center space-y-4 pt-4">
@@ -119,7 +119,7 @@ const SidebarComponent = (props: SidebarComponentProps) => {
 
       {/* Tarjeta informativa (solo en modo expandido) */}
       {!mini && (
-        <div className="flex justify-center">
+        <div className="flex w-full flex-col items-center justify-center px-4 py-2 bg-white">
           <SidebarCard />
         </div>
       )}
