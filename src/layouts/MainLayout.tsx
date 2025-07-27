@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Navbar from '../components/navbar';
-import Sidebar from "../components/Sidebar/Sidebar";
+import Sidebar from "../components/sidebar/Sidebar";
 import { userRoutes, adminRoutes, authRoutes } from '../routes/Routes';
 
 interface MainLayoutProps {

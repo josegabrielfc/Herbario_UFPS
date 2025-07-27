@@ -24,10 +24,10 @@ interface SidebarComponentProps {
  * - Animaciones de transición
  * - Soporte para modo oscuro
  * - Tarjeta informativa opcional
- * 
+ *
  * @param {SidebarComponentProps} props - Propiedades del componente
  * @returns {JSX.Element} Componente de barra lateral
- * 
+ *
  * @example
  * // Uso básico
  * <SidebarComponent
@@ -36,7 +36,7 @@ interface SidebarComponentProps {
  *   mini={isMini}
  *   onToggleMini={() => setIsMini(!isMini)}
  * />
- * 
+ *
  * // Uso en móvil
  * <SidebarComponent
  *   open={isOpen}
@@ -49,11 +49,11 @@ interface SidebarComponentProps {
 const SidebarComponent = (props: SidebarComponentProps) => {
   const { open, onClose, mini, onToggleMini, isMobile } = props;
   const navigate = useNavigate();
-  const isAuthenticated = !!localStorage.getItem('token');
+  const isAuthenticated = !!localStorage.getItem("token");
 
   // Filter userRoutes based on authentication status
-  const filteredUserRoutes = userRoutes.filter(route => {
-    if (route.path === 'coleccion' && route.layout === '/user') {
+  const filteredUserRoutes = userRoutes.filter((route) => {
+    if (route.path === "coleccion" && route.layout === "/user") {
       return !isAuthenticated; // Show herbario only when NOT authenticated
     }
     return true; // Always show other routes
@@ -111,7 +111,7 @@ const SidebarComponent = (props: SidebarComponentProps) => {
           // Modo expandido: muestra enlaces completos
           <>
             <Links routes={filteredUserRoutes} />
-            {isAuthenticated && <Links routes={adminRoutes} /> }
+            {isAuthenticated && <Links routes={adminRoutes} />}
             <Links routes={authRoutes} />
           </>
         )}
