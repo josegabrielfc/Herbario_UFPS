@@ -13,9 +13,9 @@ import { authRoutes } from "../../routes/Routes";
  * - Navegación dinámica
  * - Soporte para modo oscuro
  * - Botón de retorno contextual
- * 
+ *
  * @returns {JSX.Element} Layout de autenticación
- * 
+ *
  * @example
  * // Uso básico en router
  * <Route path="/auth/*" element={<Auth />} />
@@ -39,7 +39,9 @@ export default function Auth() {
   };
 
   // Determina si estamos en la ruta de recuperación de contraseña
-  const route = window.location.pathname === "/auth/forgot-password" || window.location.pathname === "/auth/change-password";
+  const route =
+    window.location.pathname === "/auth/forgot-password" ||
+    window.location.pathname === "/auth/change-password";
 
   return (
     <div>
@@ -51,28 +53,35 @@ export default function Auth() {
             <div className="mx-auto flex min-h-full w-full flex-col justify-start pt-12 md:max-w-[75%] lg:h-screen lg:max-w-[1013px] lg:px-8 lg:pt-0 xl:h-[100vh] xl:max-w-[1383px] xl:px-0 xl:pl-[70px]">
               <div className="mb-auto flex flex-col pl-5 pr-5 md:pr-0 md:pl-12 lg:max-w-[48%] lg:pl-0 xl:max-w-full">
                 {/* Botón de navegación contextual */}
-                <Link
-                  to={route ? "/auth/login" : "/user/home"}
-                  className="mt-0 w-max lg:pt-10"
-                >
-                  <div className="mx-auto flex h-fit w-fit items-center hover:cursor-pointer">
-                  <svg
-                    width="8"
-                    height="12"
-                    viewBox="0 0 8 12"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                <div className="flex w-full items-center gap-16 pt-4">
+                  <Link
+                    to={route ? "/auth/login" : "/user/home"}
+                    className="w-max"
                   >
-                    <path
-                    d="M6.70994 2.11997L2.82994 5.99997L6.70994 9.87997C7.09994 10.27 7.09994 10.9 6.70994 11.29C6.31994 11.68 5.68994 11.68 5.29994 11.29L0.709941 6.69997C0.319941 6.30997 0.319941 5.67997 0.709941 5.28997L5.29994 0.699971C5.68994 0.309971 6.31994 0.309971 6.70994 0.699971C7.08994 1.08997 7.09994 1.72997 6.70994 2.11997V2.11997Z"
-                    fill="#A3AED0"
-                    />
-                  </svg>
-                  <p className="ml-3 text-sm text-gray-600">
-                  { route ? "Vuelve a Iniciar sesión" : "Vuelve al Inicio" }
-                  </p>
-                  </div>
-                </Link>
+                    <div className="flex items-center hover:cursor-pointer">
+                      <svg
+                        width="8"
+                        height="12"
+                        viewBox="0 0 8 12"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M6.70994 2.11997L2.82994 5.99997L6.70994 9.87997C7.09994 10.27 7.09994 10.9 6.70994 11.29C6.31994 11.68 5.68994 11.68 5.29994 11.29L0.709941 6.69997C0.319941 6.30997 0.319941 5.67997 0.709941 5.28997L5.29994 0.699971C5.68994 0.309971 6.31994 0.309971 6.70994 0.699971C7.08994 1.08997 7.09994 1.72997 6.70994 2.11997V2.11997Z"
+                          fill="#A3AED0"
+                        />
+                      </svg>
+                      <p className="ml-3 text-sm text-gray-600">
+                        {route ? "Vuelve a Iniciar sesión" : "Vuelve al Inicio"}
+                      </p>
+                    </div>
+                  </Link>
+                  <img
+                    src="/ufpslogoHorizontal.png"
+                    alt="UFPS Logo"
+                    className="w-64 drop-shadow-2xl"
+                  />
+                </div>
 
                 {/* Sistema de rutas */}
                 <Routes>

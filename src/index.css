@@ -1,7 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap');
 @import "tailwindcss";
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Montserrat','Helvetica Neue', Helvetica, Arial, sans-serif;
+  
+  --font-complementary1: 'Open Sans', sans-serif;
+  --font-complementary2: 'Montserrat', sans-serif;
+  --font-complementary3: 'Trebuchet MS', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
